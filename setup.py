@@ -8,28 +8,28 @@ import re
 
 
 # Get version from __init__.py file
-VERSION = ''
-with open('woocommerce-api/__init__.py', 'r') as fd:
-    VERSION = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', fd.read(), re.MULTILINE).group(1)
+VERSION = ""
+with open("woocommerce/__init__.py", "r") as fd:
+    VERSION = re.search(r"^__version__\s*=\s*['\"]([^\"]*)['\"]", fd.read(), re.MULTILINE).group(1)
 
 if not VERSION:
-    raise RuntimeError('Cannot find version information')
+    raise RuntimeError("Cannot find version information")
 
 # Get long description
-README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
+README = open(os.path.join(os.path.dirname(__file__), "README.md")).read()
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='woocommerce-api',
+    name="woocommerce",
     version=VERSION,
     description="A Python wrapper for the WooCommerce REST API",
     long_description=README,
     author="Claudio Sanches @ WooThemes",
-    url='http://www.woothemes.com',
+    url="http://www.woothemes.com",
     license="MIT",
-    packages=['woocommerce-api'],
+    packages=["woocommerce"],
     include_package_data=True,
     install_requires=[
         "requests",
