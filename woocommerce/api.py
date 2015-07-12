@@ -10,6 +10,7 @@ __author__ = "Claudio Sanches @ WooThemes"
 __license__ = "MIT"
 
 import requests
+import json
 from woocommerce.oauth import OAuth
 
 
@@ -63,6 +64,9 @@ class API(object):
             auth = (self.consumer_key, self.consumer_secret)
         else:
             url = self.__get_oauth_url(url, method)
+
+        if data is not None:
+            data = json.dumps(data, ensure_ascii=False)
 
         return requests.request(
             method=method,
