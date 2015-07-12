@@ -17,6 +17,7 @@ import urllib
 import hashlib
 import collections
 
+
 class OAuth(object):
     """ API Class """
 

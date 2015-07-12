@@ -32,7 +32,6 @@ setup(
     packages=["woocommerce"],
     include_package_data=True,
     install_requires=[
-        "requests",
-        "oauthlib"
+        "requests"
     ]
 )
