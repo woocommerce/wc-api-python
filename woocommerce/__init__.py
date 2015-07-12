@@ -14,4 +14,4 @@ __version__ = "1.0.0"
 __author__ = "Claudio Sanches @ WooThemes"
 __license__ = "MIT"
 
-from woocommerce.api import API as WooCommerce
+from woocommerce.api import API
