@@ -9,13 +9,22 @@ __version__ = "1.0.0"
 __author__ = "Claudio Sanches @ WooThemes"
 __license__ = "MIT"
 
-import urlparse
-import time
-import random
-import hmac
-import urllib
-import hashlib
-import collections
+from time import time
+from random import randint
+from hmac import new as HMAC
+from hashlib import sha1, sha256
+from collections import OrderedDict
+from base64 import b64encode
+
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
+
+try:
+    from urllib import urlencode, quote, unquote
+except ImportError:
+    from urllib.parse import urlencode, quote, unquote
 
 
 class OAuth(object):
@@ -40,13 +49,16 @@ class OAuth(object):
             url = self.url
 
         params["oauth_consumer_key"] = self.consumer_key
-        params["oauth_timestamp"] = int(time.time())
-        params["oauth_nonce"] = hmac.new(
-            str(time.time() + random.randint(0, 99999)), "SHA1").hexdigest()
+        params["oauth_timestamp"] = int(time())
+        params["oauth_nonce"] = HMAC(
+            str(time() + randint(0, 99999)).encode(),
+            "secret".encode(),
+            sha1
+        ).hexdigest()
         params["oauth_signature_method"] = "HMAC-SHA256"
         params["oauth_signature"] = self.generate_oauth_signature(params, url)
 
-        query_string = urllib.urlencode(params)
+        query_string = urlencode(params)
 
         return "%s?%s" % (url, query_string)
 
@@ -55,9 +67,9 @@ class OAuth(object):
         if "oauth_signature" in params.keys():
             del params["oauth_signature"]
 
-        base_request_uri = urllib.quote(url, "")
+        base_request_uri = quote(url, "")
         params = self.normalize_parameters(params)
-        params = collections.OrderedDict(sorted(params.items()))
+        params = OrderedDict(sorted(params.items()))
         query_params = ["{param_key}%3D{param_value}".format(param_key=key, param_value=value)
                         for key, value in params.items()]
 
@@ -68,12 +80,13 @@ class OAuth(object):
         if self.version == "v3":
             consumer_secret += "&"
 
-        hash_signature = hmac.new(
-            consumer_secret,
-            str(string_to_sign),
-            getattr(hashlib, "sha256")).digest()
+        hash_signature = HMAC(
+            consumer_secret.encode(),
+            str(string_to_sign).encode(),
+            sha256
+        ).digest()
 
-        return hash_signature.encode("base64").replace("\n", "")
+        return b64encode(hash_signature).decode("utf-8").replace("\n", "")
 
     @staticmethod
     def normalize_parameters(params):
@@ -82,8 +95,13 @@ class OAuth(object):
         normalized_parameters = {}
 
         def get_value_like_as_php(val):
-            """ Prepare value for urllib.quote """
-            if isinstance(val, basestring):
+            """ Prepare value for quote """
+            try:
+                base = basestring
+            except NameError:
+                base = (str, bytes)
+
+            if isinstance(val, base):
                 return val
             elif isinstance(val, bool):
                 return "1" if val else ""
@@ -96,8 +114,8 @@ class OAuth(object):
 
         for key, value in params.items():
             value = get_value_like_as_php(value)
-            key = urllib.quote(urllib.unquote(str(key))).replace("%", "%25")
-            value = urllib.quote(urllib.unquote(str(value))).replace("%", "%25")
+            key = quote(unquote(str(key))).replace("%", "%25")
+            value = quote(unquote(str(value))).replace("%", "%25")
             normalized_parameters[key] = value
 
         return normalized_parameters

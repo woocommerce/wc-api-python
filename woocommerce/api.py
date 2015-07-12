@@ -9,8 +9,8 @@ __version__ = "1.0.0"
 __author__ = "Claudio Sanches @ WooThemes"
 __license__ = "MIT"
 
-import requests
-import json
+from requests import request
+from json import dumps as jsonencode
 from woocommerce.oauth import OAuth
 
 
@@ -66,9 +66,9 @@ class API(object):
             url = self.__get_oauth_url(url, method)
 
         if data is not None:
-            data = json.dumps(data, ensure_ascii=False)
+            data = jsonencode(data, ensure_ascii=False)
 
-        return requests.request(
+        return request(
             method=method,
             url=url,
             verify=self.verify_ssl,
