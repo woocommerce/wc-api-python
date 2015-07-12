@@ -28,9 +28,12 @@ setup(
     long_description=README,
     author="Claudio Sanches @ WooThemes",
     url="http://www.woothemes.com",
-    license="MIT",
-    packages=["woocommerce"],
+    license="MIT License",
+    packages=[
+        "woocommerce"
+    ],
     include_package_data=True,
+    platforms=['any'],
     install_requires=[
         "requests"
     ],
