@@ -42,7 +42,7 @@ class OAuth(object):
         params["oauth_timestamp"] = int(time.time())
         params["oauth_nonce"] = hmac.new(
             str(time.time() + random.randint(0, 99999)), "SHA1").hexdigest()
-        params["oauth_signature_method"] = "HMAC-SHA1"
+        params["oauth_signature_method"] = "HMAC-SHA256"
         params["oauth_signature"] = self.generate_oauth_signature(params, url)
 
         query_string = urllib.urlencode(params)
@@ -70,7 +70,7 @@ class OAuth(object):
         hash_signature = hmac.new(
             consumer_secret,
             str(string_to_sign),
-            getattr(hashlib, "sha1")).digest()
+            getattr(hashlib, "sha256")).digest()
 
         return hash_signature.encode("base64").replace("\n", "")
 
