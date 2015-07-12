@@ -71,7 +71,7 @@ class API(object):
             auth=auth,
             data=data,
             headers=headers
-        ).json()
+        )
 
     def get(self, endpoint):
         """ Get requests """
