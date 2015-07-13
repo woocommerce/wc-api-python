@@ -13,7 +13,6 @@ from time import time
 from random import randint
 from hmac import new as HMAC
 from hashlib import sha1, sha256
-from collections import OrderedDict
 from base64 import b64encode
 
 try:
