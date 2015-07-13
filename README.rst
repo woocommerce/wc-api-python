@@ -26,9 +26,9 @@ Setup
 
 .. code-block:: python
 
-    from woocommerce import WooCommerce
+    from woocommerce import API
 
-    wcapi = woocommerce.api(
+    wcapi = API(
         url="http://example.com",
         consumer_key="ck_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         consumer_secret="cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
@@ -92,14 +92,14 @@ Example of returned data:
 
 .. code-block:: bash
 
-    >>> woocommerce.get("products")
-    >>> woocommerce.status_code
+    >>> wcapi.get("products")
+    >>> wcapi.status_code
     200
-    >>> woocommerce.headers['content-type']
+    >>> wcapi.headers['content-type']
     'application/json; charset=UTF-8'
-    >>> woocommerce.encoding
+    >>> wcapi.encoding
     'UTF-8'
-    >>> woocommerce.text
+    >>> wcapi.text
     u'{"products":[{"title":"Flying Ninja","id":70,...' // Json text
-    >>> woocommerce.json()
+    >>> wcapi.json()
     {u'products': [{u'sold_individually': False,... // Dictionary data
