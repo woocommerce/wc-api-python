@@ -6,6 +6,9 @@ A Python wrapper for the WooCommerce REST API. Easily interact with the WooComme
 .. image:: https://secure.travis-ci.org/woothemes/wc-api-python.svg
     :target: http://travis-ci.org/woothemes/wc-api-python
 
+.. image:: https://img.shields.io/pypi/v/woocommerce.svg
+    :target: https://pypi.python.org/pypi/WooCommerce
+
 
 Installation
 ------------
@@ -103,3 +106,17 @@ Example of returned data:
     u'{"products":[{"title":"Flying Ninja","id":70,...' // Json text
     >>> wcapi.json()
     {u'products': [{u'sold_individually': False,... // Dictionary data
+
+
+Changelog
+---------
+
+1.0.1 - 2015/07/13
+~~~~~~~~~~~~~~~~~~
+
+- Fixed support for Python 2.6
+
+1.0.1 - 2015/07/12
+~~~~~~~~~~~~~~~~~~
+
+- Initial version
