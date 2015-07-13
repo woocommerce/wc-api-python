@@ -35,7 +35,8 @@ setup(
     include_package_data=True,
     platforms=['any'],
     install_requires=[
-        "requests"
+        "requests",
+        "ordereddict"
     ],
     classifiers=(
         "Development Status :: 5 - Production/Stable",

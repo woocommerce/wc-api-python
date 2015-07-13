@@ -26,6 +26,11 @@ try:
 except ImportError:
     from urllib.parse import urlencode, quote, unquote
 
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
+
 
 class OAuth(object):
     """ API Class """
