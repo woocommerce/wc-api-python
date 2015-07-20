@@ -89,22 +89,22 @@ DELETE
 Response
 --------
 
-All methods will return `Requests <http://docs.python-requests.org/en/latest/>`_ object.
+All methods will return `Response <http://docs.python-requests.org/en/latest/api/#requests.Response>`_ object.
 
 Example of returned data:
 
 .. code-block:: bash
 
-    >>> wcapi.get("products")
-    >>> wcapi.status_code
+    >>> r = wcapi.get("products")
+    >>> r.status_code
     200
-    >>> wcapi.headers['content-type']
+    >>> r.headers['content-type']
     'application/json; charset=UTF-8'
-    >>> wcapi.encoding
+    >>> r.encoding
     'UTF-8'
-    >>> wcapi.text
+    >>> r.text
     u'{"products":[{"title":"Flying Ninja","id":70,...' // Json text
-    >>> wcapi.json()
+    >>> r.json()
     {u'products': [{u'sold_individually': False,... // Dictionary data
 
 
