@@ -33,7 +33,7 @@ class API(object):
         """ Get URL for requests """
         url = self.url
 
-        if self.url.endswith('/') is False:
+        if url.endswith('/') is False:
             url = "%s/" % url
 
         return "%swc-api/%s/%s" % (url, self.version, endpoint)
@@ -56,7 +56,7 @@ class API(object):
         auth = None
         headers = {
             "user-agent": "WooCommerce API Client-Node.js/%s" % __version__,
-            "content-type": "application/json",
+            "content-type": "application/json;charset=utf-8",
             "accept": "application/json"
         }
 
