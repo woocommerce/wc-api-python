@@ -33,7 +33,7 @@ class API(object):
         """ Get URL for requests """
         url = self.url
 
-        if url.endswith('/') is False:
+        if url.endswith("/") is False:
             url = "%s/" % url
 
         return "%swc-api/%s/%s" % (url, self.version, endpoint)
