@@ -16,14 +16,10 @@ from hashlib import sha1, sha256
 from base64 import b64encode
 
 try:
-    from urllib.parse import urlparse
+    from urllib.parse import urlencode, quote, unquote, parse_qsl, urlparse
 except ImportError:
-    from urlparse import urlparse
-
-try:
     from urllib import urlencode, quote, unquote
-except ImportError:
-    from urllib.parse import urlencode, quote, unquote
+    from urlparse import parse_qsl, urlparse
 
 try:
     from collections import OrderedDict
@@ -47,7 +43,7 @@ class OAuth(object):
 
         if "?" in self.url:
             url = self.url[:self.url.find("?")]
-            for key, value in urlparse.parse_qsl(urlparse.urlparse(self.url).query):
+            for key, value in parse_qsl(urlparse(self.url).query):
                 params[key] = value
         else:
             url = self.url
