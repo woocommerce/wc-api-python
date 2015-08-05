@@ -111,6 +111,11 @@ Example of returned data:
 Changelog
 ---------
 
+1.0.2 - 2015/08/05
+~~~~~~~~~~~~~~~~~~
+
+- Fixed handler for query strings
+
 1.0.1 - 2015/07/13
 ~~~~~~~~~~~~~~~~~~
 
