@@ -111,6 +111,11 @@ Example of returned data:
 Changelog
 ---------
 
+1.0.3 - 2015/08/07
+~~~~~~~~~~~~~~~~~~
+
+- Forced utf-8 encoding on ``API.__request()`` to avoid ``UnicodeDecodeError``
+
 1.0.2 - 2015/08/05
 ~~~~~~~~~~~~~~~~~~
 
