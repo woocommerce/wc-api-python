@@ -66,7 +66,7 @@ class API(object):
             url = self.__get_oauth_url(url, method)
 
         if data is not None:
-            data = jsonencode(data, ensure_ascii=False)
+            data = jsonencode(data, ensure_ascii=False).encode('utf-8')
 
         return request(
             method=method,
