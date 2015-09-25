@@ -23,7 +23,7 @@ class API(object):
         self.consumer_secret = consumer_secret
         self.version = kwargs.get("version", "v3")
         self.is_ssl = self.__is_ssl()
-        self.timeout = kwargs.get("timeout")
+        self.timeout = kwargs.get("timeout", 5)
         self.verify_ssl = kwargs.get("verify_ssl", True)
 
     def __is_ssl(self):
