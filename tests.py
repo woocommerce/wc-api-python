@@ -44,6 +44,27 @@ class WooCommerceTestCase(unittest.TestCase):
         )
         self.assertTrue(api.is_ssl, True)
 
+    def test_with_timeout(self):
+        """ Test non-ssl """
+        api = woocommerce.API(
+            url="https://woo.test",
+            consumer_key=self.consumer_key,
+            consumer_secret=self.consumer_secret,
+            timeout=10,
+        )
+        self.assertEqual(api.timeout, 10)
+
+        @all_requests
+        def woo_test_mock(*args, **kwargs):
+            """ URL Mock """
+            return {'status_code': 200,
+                    'content': 'OK'}
+
+        with HTTMock(woo_test_mock):
+            # call requests
+            status = api.get("products").status_code
+        self.assertEqual(status, 200)
+
     def test_get(self):
         """ Test GET requests """
         @all_requests
