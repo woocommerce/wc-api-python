@@ -64,11 +64,11 @@ class API(object):
         }
 
         if self.is_ssl is True:
+            auth = (self.consumer_key, self.consumer_secret)
+
             if self.auth_query_string is True:
                 params = {'consumer_key': self.consumer_key,
                           'consumer_secret': self.consumer_secret}
-            else:
-                auth = (self.consumer_key, self.consumer_secret)
         else:
             url = self.__get_oauth_url(url, method)
 
