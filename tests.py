@@ -134,5 +134,5 @@ class WooCommerceTestCase(unittest.TestCase):
 
         with HTTMock(woo_test_mock):
             url = api.get("products").url
-        self.assertIn('consumer_key={}'.format(self.consumer_key), url)
-        self.assertIn('consumer_secret={}'.format(self.consumer_secret), url)
+        self.assertTrue('consumer_key={0}'.format(self.consumer_key) in url)
+        self.assertTrue('consumer_secret={0}'.format(self.consumer_secret) in url)
