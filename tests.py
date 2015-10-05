@@ -116,3 +116,23 @@ class WooCommerceTestCase(unittest.TestCase):
             # call requests
             status = self.api.delete("products").status_code
         self.assertEqual(status, 200)
+
+    def test_get_with_https_and_query_params(self):
+        api = woocommerce.API(
+            url="https://woo.test",
+            consumer_key=self.consumer_key,
+            consumer_secret=self.consumer_secret,
+            auth_query_string=True,
+        )
+        self.assertEqual(api.auth_query_string, True)
+
+        @all_requests
+        def woo_test_mock(*args, **kwargs):
+            """ URL Mock """
+            return {'status_code': 200,
+                    'content': 'OK'}
+
+        with HTTMock(woo_test_mock):
+            url = api.get("products").url
+        self.assertTrue('consumer_key={0}'.format(self.consumer_key) in url)
+        self.assertTrue('consumer_secret={0}'.format(self.consumer_secret) in url)
