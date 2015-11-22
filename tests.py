@@ -119,6 +119,7 @@ class WooCommerceTestCase(unittest.TestCase):
         self.assertEqual(status, 200)
 
     def test_oauth_sorted_params(self):
+        """ Test order of parameters for OAuth signature """
         def check_sorted(keys, expected):
             params = oauth.OrderedDict()
             for key in keys:
