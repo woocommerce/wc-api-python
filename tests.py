@@ -1,6 +1,7 @@
 """ API Tests """
 import unittest
 import woocommerce
+from woocommerce import oauth
 from httmock import all_requests, HTTMock
 
 
@@ -116,3 +117,19 @@ class WooCommerceTestCase(unittest.TestCase):
             # call requests
             status = self.api.delete("products").status_code
         self.assertEqual(status, 200)
+
+    def test_oauth_sorted_params(self):
+        def check_sorted(keys, expected):
+            params = oauth.OrderedDict()
+            for key in keys:
+                params[key] = ''
+
+            ordered = oauth.OAuth.sorted_params(params).keys()
+            self.assertEqual(ordered, expected)
+
+        check_sorted(['a', 'b'], ['a', 'b'])
+        check_sorted(['b', 'a'], ['a', 'b'])
+        check_sorted(['a', 'b[a]', 'b[b]', 'b[c]', 'c'], ['a', 'b[a]', 'b[b]', 'b[c]', 'c'])
+        check_sorted(['a', 'b[c]', 'b[a]', 'b[b]', 'c'], ['a', 'b[c]', 'b[a]', 'b[b]', 'c'])
+        check_sorted(['d', 'b[c]', 'b[a]', 'b[b]', 'c'], ['b[c]', 'b[a]', 'b[b]', 'c', 'd'])
+        check_sorted(['a1', 'b[c]', 'b[a]', 'b[b]', 'a2'], ['a1', 'a2', 'b[c]', 'b[a]', 'b[b]'])
