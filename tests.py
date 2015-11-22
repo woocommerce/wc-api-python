@@ -125,7 +125,7 @@ class WooCommerceTestCase(unittest.TestCase):
             for key in keys:
                 params[key] = ''
 
-            ordered = oauth.OAuth.sorted_params(params).keys()
+            ordered = list(oauth.OAuth.sorted_params(params).keys())
             self.assertEqual(ordered, expected)
 
         check_sorted(['a', 'b'], ['a', 'b'])
