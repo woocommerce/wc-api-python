@@ -39,7 +39,7 @@ class OAuth(object):
 
     def get_oauth_url(self):
         """ Returns the URL with OAuth params """
-        params = {}
+        params = OrderedDict()
 
         if "?" in self.url:
             url = self.url[:self.url.find("?")]
@@ -68,8 +68,8 @@ class OAuth(object):
             del params["oauth_signature"]
 
         base_request_uri = quote(url, "")
+        params = self.sorted_params(params)
         params = self.normalize_parameters(params)
-        params = OrderedDict(sorted(params.items()))
         query_params = ["{param_key}%3D{param_value}".format(param_key=key, param_value=value)
                         for key, value in params.items()]
 
@@ -89,10 +89,22 @@ class OAuth(object):
         return b64encode(hash_signature).decode("utf-8").replace("\n", "")
 
     @staticmethod
+    def sorted_params(params):
+        ordered = OrderedDict()
+        base_keys = sorted(set(k.split('[')[0] for k in params.keys()))
+
+        for base in base_keys:
+            for key in params.keys():
+                if key == base or key.startswith(base + '['):
+                    ordered[key] = params[key]
+
+        return ordered
+
+    @staticmethod
     def normalize_parameters(params):
         """ Normalize parameters """
         params = params or {}
-        normalized_parameters = {}
+        normalized_parameters = OrderedDict()
 
         def get_value_like_as_php(val):
             """ Prepare value for quote """
