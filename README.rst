@@ -113,6 +113,11 @@ Example of returned data:
 Changelog
 ---------
 
+1.0.5 - 2015/12/07
+~~~~~~~~~~~~~~~~~~
+
+- Fixed oAuth filters sorting.
+
 1.0.4 - 2015/09/25
 ~~~~~~~~~~~~~~~~~~
 
