@@ -50,11 +50,7 @@ class OAuth(object):
 
         params["oauth_consumer_key"] = self.consumer_key
         params["oauth_timestamp"] = int(time())
-        params["oauth_nonce"] = HMAC(
-            str(time() + randint(0, 99999)).encode(),
-            "secret".encode(),
-            sha1
-        ).hexdigest()
+        params["oauth_nonce"] = self.generate_nonce()
         params["oauth_signature_method"] = "HMAC-SHA256"
         params["oauth_signature"] = self.generate_oauth_signature(params, url)
 
@@ -131,3 +127,13 @@ class OAuth(object):
             normalized_parameters[key] = value
 
         return normalized_parameters
+
+    @staticmethod
+    def generate_nonce():
+        """ Generate nonce number """
+        nonce = ''.join([str(randint(0, 9)) for i in range(8)])
+        return HMAC(
+            nonce.encode(),
+            "secret".encode(),
+            sha1
+        ).hexdigest()
