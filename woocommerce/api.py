@@ -62,7 +62,11 @@ class API(object):
         }
 
         if self.is_ssl is True:
-            auth = (self.consumer_key, self.consumer_secret)
+            if "?" not in url:
+                url += "?"
+            else:
+                url += "&"
+            url = "%sconsumer_key=%s&consumer_secret=%s" % (url, self.consumer_key, self.consumer_secret)
         else:
             url = self.__get_oauth_url(url, method)
 
