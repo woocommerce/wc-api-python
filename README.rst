@@ -27,6 +27,8 @@ Check out the WooCommerce API endpoints and data that can be manipulated in http
 Setup
 -----
 
+Setup for the old WooCommerce API v3:
+
 .. code-block:: python
 
     from woocommerce import API
@@ -37,6 +39,19 @@ Setup
         consumer_secret="cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     )
 
+Setup for the new WP REST API integration:
+
+.. code-block:: python
+
+    from woocommerce import API
+
+    wcapi = API(
+        url="http://example.com",
+        consumer_key="ck_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        consumer_secret="cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        wp_api=True,
+        version="wc/v1"
+    )
 
 Options
 ~~~~~~~
@@ -49,6 +64,8 @@ Options
 | ``consumerKey``    | ``string``  | yes      | Your API consumer key                                                                                 |
 +--------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
 | ``consumerSecret`` | ``string``  | yes      | Your API consumer secret                                                                              |
++--------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
+| ``wp_api``         | ``bool``    | no       | Allow requests to the WP REST API                                                                     |
 +--------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
 | ``version``        | ``string``  | no       | API version, default is ``v3``                                                                        |
 +--------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
@@ -88,6 +105,11 @@ DELETE
 
 - ``.delete(endpoint)``
 
+OPTIONS
+~~~~~~~
+
+- ``.options(endpoint)``
+
 Response
 --------
 
@@ -112,6 +134,12 @@ Example of returned data:
 
 Changelog
 ---------
+
+1.1.0 - 2016/05/09
+~~~~~~~~~~~~~~~~~~
+
+- Added support for WP REST API.
+- Added method to do HTTP OPTIONS requests.
 
 1.0.5 - 2015/12/07
 ~~~~~~~~~~~~~~~~~~
