@@ -94,3 +94,7 @@ class API(object):
     def delete(self, endpoint):
         """ DELETE requests """
         return self.__request("DELETE", endpoint, None)
+
+    def options(self, endpoint):
+        """ OPTIONS requests """
+        return self.__request("OPTIONS", endpoint, None)

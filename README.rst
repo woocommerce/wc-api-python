@@ -54,7 +54,7 @@ Options
 +--------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
 | ``timeout``        | ``integer`` | no       | Connection timeout, default is ``5``                                                                  |
 +--------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
-| ``verify_ssl``     | ``bool``    | no       | Verify SSL when connect, use this option as ``false`` when need to test with self-signed certificates |
+| ``verify_ssl``     | ``bool``    | no       | Verify SSL when connect, use this option as ``False`` when need to test with self-signed certificates |
 +--------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
 
 Methods
