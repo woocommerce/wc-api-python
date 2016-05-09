@@ -21,6 +21,7 @@ class API(object):
         self.url = url
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
+        self.wp_api = kwargs.get("wp_api", False)
         self.version = kwargs.get("version", "v3")
         self.is_ssl = self.__is_ssl()
         self.timeout = kwargs.get("timeout", 5)
@@ -33,11 +34,15 @@ class API(object):
     def __get_url(self, endpoint):
         """ Get URL for requests """
         url = self.url
+        api = "wc-api"
 
         if url.endswith("/") is False:
             url = "%s/" % url
 
-        return "%swc-api/%s/%s" % (url, self.version, endpoint)
+        if self.wp_api:
+            api = "wp-json"
+
+        return "%s%s/%s/%s" % (url, api, self.version, endpoint)
 
     def __get_oauth_url(self, url, method):
         """ Generate oAuth1.0a URL """
