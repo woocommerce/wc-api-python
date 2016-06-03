@@ -10,7 +10,7 @@ A Python wrapper for WooCommerce API.
 """
 
 __title__ = "woocommerce"
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 __author__ = "Claudio Sanches @ WooThemes"
 __license__ = "MIT"
 
