@@ -73,7 +73,7 @@ class OAuth(object):
         string_to_sign = "%s&%s&%s" % (self.method, base_request_uri, query_string)
 
         consumer_secret = str(self.consumer_secret)
-        if self.version == "v3":
+        if self.version not in ["v1", "v2"]:
             consumer_secret += "&"
 
         hash_signature = HMAC(
