@@ -39,7 +39,7 @@ Setup for the old WooCommerce API v3:
         consumer_secret="cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     )
 
-Setup for the new WP REST API integration:
+Setup for the new WP REST API integration (WooCommerce 2.6 or later):
 
 .. code-block:: python
 
@@ -65,7 +65,7 @@ Options
 +--------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
 | ``consumerSecret`` | ``string``  | yes      | Your API consumer secret                                                                              |
 +--------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
-| ``wp_api``         | ``bool``    | no       | Allow requests to the WP REST API                                                                     |
+| ``wp_api``         | ``bool``    | no       | Allow requests to the WP REST API (WooCommerce 2.6 or later)                                          |
 +--------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
 | ``version``        | ``string``  | no       | API version, default is ``v3``                                                                        |
 +--------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
