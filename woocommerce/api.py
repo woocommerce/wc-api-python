@@ -26,6 +26,7 @@ class API(object):
         self.is_ssl = self.__is_ssl()
         self.timeout = kwargs.get("timeout", 5)
         self.verify_ssl = kwargs.get("verify_ssl", True)
+        self.query_string_auth = kwargs.get("query_string_auth", False)
 
     def __is_ssl(self):
         """ Check if url use HTTPS """
@@ -60,14 +61,20 @@ class API(object):
         """ Do requests """
         url = self.__get_url(endpoint)
         auth = None
+        params = {}
         headers = {
             "user-agent": "WooCommerce API Client-Python/%s" % __version__,
             "content-type": "application/json;charset=utf-8",
             "accept": "application/json"
         }
 
-        if self.is_ssl is True:
+        if self.is_ssl is True and self.query_string_auth is False:
             auth = (self.consumer_key, self.consumer_secret)
+        elif self.is_ssl is True and self.query_string_auth is True:
+            params = {
+                "consumer_key": self.consumer_key,
+                "consumer_secret": self.consumer_secret
+            }
         else:
             url = self.__get_oauth_url(url, method)
 
@@ -79,6 +86,7 @@ class API(object):
             url=url,
             verify=self.verify_ssl,
             auth=auth,
+            params=params,
             data=data,
             timeout=self.timeout,
             headers=headers
