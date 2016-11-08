@@ -12,6 +12,7 @@ __license__ = "MIT"
 from requests import request
 from json import dumps as jsonencode
 from woocommerce.oauth import OAuth
+import aiohttp
 
 
 class API(object):
@@ -57,7 +58,7 @@ class API(object):
 
         return oauth.get_oauth_url()
 
-    def __request(self, method, endpoint, data):
+    async def __request(self, method, endpoint, data):
         """ Do requests """
         url = self.__get_url(endpoint)
         auth = None
@@ -69,7 +70,7 @@ class API(object):
         }
 
         if self.is_ssl is True and self.query_string_auth is False:
-            auth = (self.consumer_key, self.consumer_secret)
+            auth = aiohttp.BasicAuth(self.consumer_key, self.consumer_secret)
         elif self.is_ssl is True and self.query_string_auth is True:
             params = {
                 "consumer_key": self.consumer_key,
@@ -81,33 +82,33 @@ class API(object):
         if data is not None:
             data = jsonencode(data, ensure_ascii=False).encode('utf-8')
 
-        return request(
+        return await aiohttp.request(
             method=method,
             url=url,
-            verify=self.verify_ssl,
+            #verify=self.verify_ssl,
             auth=auth,
             params=params,
             data=data,
-            timeout=self.timeout,
+            #timeout=self.timeout,
             headers=headers
         )
 
-    def get(self, endpoint):
+    async def get(self, endpoint):
         """ Get requests """
-        return self.__request("GET", endpoint, None)
+        return await self.__request("GET", endpoint, None)
 
-    def post(self, endpoint, data):
+    async def post(self, endpoint, data):
         """ POST requests """
-        return self.__request("POST", endpoint, data)
+        return await self.__request("POST", endpoint, data)
 
-    def put(self, endpoint, data):
+    async def put(self, endpoint, data):
         """ PUT requests """
-        return self.__request("PUT", endpoint, data)
+        return await self.__request("PUT", endpoint, data)
 
-    def delete(self, endpoint):
+    async def delete(self, endpoint):
         """ DELETE requests """
-        return self.__request("DELETE", endpoint, None)
+        return await self.__request("DELETE", endpoint, None)
 
-    def options(self, endpoint):
+    async def options(self, endpoint):
         """ OPTIONS requests """
-        return self.__request("OPTIONS", endpoint, None)
+        return await self.__request("OPTIONS", endpoint, None)
