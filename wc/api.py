@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-WooCommerce API Class
+WC API Class
 """
 
 __title__ = "woocommerce-api"
@@ -11,7 +11,7 @@ __license__ = "MIT"
 
 from requests import request
 from json import dumps as jsonencode
-from woocommerce.oauth import OAuth
+from wc.oauth import OAuth
 import aiohttp
 
 

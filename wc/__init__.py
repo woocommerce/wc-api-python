@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-woocommerce
+wc
 ~~~~~~~~~~~~~~~
 A Python wrapper for WooCommerce API.
 
@@ -9,9 +9,9 @@ A Python wrapper for WooCommerce API.
 :license: MIT, see LICENSE for details.
 """
 
-__title__ = "woocommerce"
+__title__ = "wc"
 __version__ = "1.2.0"
 __author__ = "Claudio Sanches @ WooThemes"
 __license__ = "MIT"
 
-from woocommerce.api import API
+from wc.api import API

@@ -6,10 +6,9 @@ from setuptools import setup
 import os
 import re
 
-
 # Get version from __init__.py file
 VERSION = ""
-with open("woocommerce/__init__.py", "r") as fd:
+with open("wc/__init__.py", "r") as fd:
     VERSION = re.search(r"^__version__\s*=\s*['\"]([^\"]*)['\"]", fd.read(), re.MULTILINE).group(1)
 
 if not VERSION:
@@ -30,7 +29,7 @@ setup(
     url="https://github.com/woocommerce/wc-api-python",
     license="MIT License",
     packages=[
-        "woocommerce"
+        "wc"
     ],
     include_package_data=True,
     platforms=['any'],
