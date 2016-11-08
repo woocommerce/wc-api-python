@@ -4,7 +4,7 @@
 WC API Class
 """
 
-__title__ = "woocommerce-api"
+__title__ = "wc-api"
 __version__ = "1.2.0"
 __author__ = "Claudio Sanches @ WooThemes"
 __license__ = "MIT"

@@ -21,12 +21,12 @@ README = open(os.path.join(os.path.dirname(__file__), "README.rst")).read()
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name="WooCommerce",
+    name="wc",
     version=VERSION,
     description="A Python wrapper for the WooCommerce REST API",
     long_description=README,
     author="Claudio Sanches @ WooThemes",
-    url="https://github.com/woocommerce/wc-api-python",
+    url="https://github.com/channable/wc-api-python.git",
     license="MIT License",
     packages=[
         "wc"
