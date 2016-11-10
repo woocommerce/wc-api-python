@@ -57,7 +57,7 @@ class API(object):
 
         return oauth.get_oauth_url()
 
-    async def __request(self, method, endpoint, data):
+    async def request(self, method, endpoint, data):
         """ Do requests """
         url = self.__get_url(endpoint)
         auth = None
@@ -94,20 +94,20 @@ class API(object):
 
     async def get(self, endpoint):
         """ Get requests """
-        return await self.__request("GET", endpoint, None)
+        return await self.request("GET", endpoint, None)
 
     async def post(self, endpoint, data):
         """ POST requests """
-        return await self.__request("POST", endpoint, data)
+        return await self.request("POST", endpoint, data)
 
     async def put(self, endpoint, data):
         """ PUT requests """
-        return await self.__request("PUT", endpoint, data)
+        return await self.request("PUT", endpoint, data)
 
     async def delete(self, endpoint):
         """ DELETE requests """
-        return await self.__request("DELETE", endpoint, None)
+        return await self.request("DELETE", endpoint, None)
 
     async def options(self, endpoint):
         """ OPTIONS requests """
-        return await self.__request("OPTIONS", endpoint, None)
+        return await self.request("OPTIONS", endpoint, None)
