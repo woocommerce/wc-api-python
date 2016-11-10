@@ -9,7 +9,6 @@ __version__ = "1.2.0"
 __author__ = "Claudio Sanches @ WooThemes"
 __license__ = "MIT"
 
-from requests import request
 from json import dumps as jsonencode
 from wc.oauth import OAuth
 import aiohttp
