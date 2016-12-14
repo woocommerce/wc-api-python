@@ -26,7 +26,7 @@ setup(
     version=VERSION,
     description="A Python wrapper for the WooCommerce REST API",
     long_description=README,
-    author="Claudio Sanches @ WooThemes",
+    author="Claudio Sanches @ Automattic",
     url="https://github.com/woocommerce/wc-api-python",
     license="MIT License",
     packages=[
@@ -38,7 +38,7 @@ setup(
         "requests",
         "ordereddict"
     ],
-    classifiers=(
+    classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "Natural Language :: English",
@@ -50,5 +50,5 @@ setup(
         "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
         "Topic :: Software Development :: Libraries :: Python Modules"
-    ),
+    ],
 )

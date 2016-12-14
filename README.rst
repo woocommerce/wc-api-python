@@ -137,6 +137,11 @@ Example of returned data:
 Changelog
 ---------
 
+1.2.1 - 2016/12/14
+~~~~~~~~~~~~~~~~~~
+
+- Fixed WordPress 4.7 compatibility.
+
 1.2.0 - 2016/06/22
 ~~~~~~~~~~~~~~~~~~
 
