@@ -64,7 +64,6 @@ class API(object):
         params = {}
         headers = {
             "user-agent": "WooCommerce API Client-Python/%s" % __version__,
-            "content-type": "application/json;charset=utf-8",
             "accept": "application/json"
         }
 
@@ -80,6 +79,7 @@ class API(object):
 
         if data is not None:
             data = jsonencode(data, ensure_ascii=False).encode('utf-8')
+            headers["content-type"] = "application/json;charset=utf-8"
 
         return request(
             method=method,
