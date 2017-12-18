@@ -57,7 +57,7 @@ class API(object):
 
         return oauth.get_oauth_url()
 
-    def __request(self, method, endpoint, data):
+    def __request(self, method, endpoint, data, custom_headers=None):
         """ Do requests """
         url = self.__get_url(endpoint)
         auth = None
@@ -66,6 +66,9 @@ class API(object):
             "user-agent": "WooCommerce API Client-Python/%s" % __version__,
             "accept": "application/json"
         }
+
+        if custom_headers is not None:
+            headers.update(custom_headers)
 
         if self.is_ssl is True and self.query_string_auth is False:
             auth = (self.consumer_key, self.consumer_secret)
@@ -92,22 +95,22 @@ class API(object):
             headers=headers
         )
 
-    def get(self, endpoint):
+    def get(self, endpoint, custom_headers=None):
         """ Get requests """
-        return self.__request("GET", endpoint, None)
+        return self.__request("GET", endpoint, None, custom_headers)
 
-    def post(self, endpoint, data):
+    def post(self, endpoint, data, custom_headers=None):
         """ POST requests """
-        return self.__request("POST", endpoint, data)
+        return self.__request("POST", endpoint, data, custom_headers)
 
-    def put(self, endpoint, data):
+    def put(self, endpoint, data, custom_headers=None):
         """ PUT requests """
-        return self.__request("PUT", endpoint, data)
+        return self.__request("PUT", endpoint, data, custom_headers)
 
-    def delete(self, endpoint):
+    def delete(self, endpoint, custom_headers=None):
         """ DELETE requests """
-        return self.__request("DELETE", endpoint, None)
+        return self.__request("DELETE", endpoint, None, custom_headers)
 
-    def options(self, endpoint):
+    def options(self, endpoint, custom_headers=None):
         """ OPTIONS requests """
-        return self.__request("OPTIONS", endpoint, None)
+        return self.__request("OPTIONS", endpoint, None, custom_headers)

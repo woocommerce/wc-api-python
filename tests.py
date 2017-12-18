@@ -134,3 +134,90 @@ class WooCommerceTestCase(unittest.TestCase):
         check_sorted(['a', 'b[c]', 'b[a]', 'b[b]', 'c'], ['a', 'b[c]', 'b[a]', 'b[b]', 'c'])
         check_sorted(['d', 'b[c]', 'b[a]', 'b[b]', 'c'], ['b[c]', 'b[a]', 'b[b]', 'c', 'd'])
         check_sorted(['a1', 'b[c]', 'b[a]', 'b[b]', 'a2'], ['a1', 'a2', 'b[c]', 'b[a]', 'b[b]'])
+
+
+class WooCommerceCustomHeadersTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.consumer_key = "ck_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+        self.consumer_secret = "cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+        self.api = woocommerce.API(
+            url="http://woo.test",
+            consumer_key=self.consumer_key,
+            consumer_secret=self.consumer_secret
+        )
+
+    def test_get_with_custom_header(self):
+        """ Test GET requests """
+        @all_requests
+        def woo_test_mock(*args, **kwargs):
+            """ URL Mock """
+            return {'status_code': 200,
+                    'content': 'OK',
+                    'headers': dict(args[1].headers)}
+
+        with HTTMock(woo_test_mock):
+            # call requests
+            response = self.api.get(
+                "products", custom_headers={'custom_header': 42}
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('custom_header' in response.headers)
+        self.assertEqual(response.headers['custom_header'], 42)
+
+    def test_post_with_custom_header(self):
+        """ Test POST requests """
+        @all_requests
+        def woo_test_mock(*args, **kwargs):
+            """ URL Mock """
+            return {'status_code': 201,
+                    'content': 'OK',
+                    'headers': dict(args[1].headers)}
+
+        with HTTMock(woo_test_mock):
+            # call requests
+            response = self.api.post(
+                "products", {}, custom_headers={'custom_header': 42}
+            )
+        self.assertEqual(response.status_code, 201)
+        self.assertTrue('custom_header' in response.headers)
+        self.assertEqual(response.headers['custom_header'], 42)
+
+
+    def test_put_with_custom_header(self):
+        """ Test PUT requests """
+        @all_requests
+        def woo_test_mock(*args, **kwargs):
+            """ URL Mock """
+            return {'status_code': 200,
+                    'content': 'OK',
+                    'headers': dict(args[1].headers)}
+
+        with HTTMock(woo_test_mock):
+            # call requests
+            response = self.api.put(
+                "products", {}, custom_headers={'custom_header': 42}
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('custom_header' in response.headers)
+        self.assertEqual(response.headers['custom_header'], 42)
+
+
+    def test_delete_with_custom_header(self):
+        """ Test DELETE requests """
+        @all_requests
+        def woo_test_mock(*args, **kwargs):
+            """ URL Mock """
+            return {'status_code': 200,
+                    'content': 'OK',
+                    'headers': dict(args[1].headers)}
+
+        with HTTMock(woo_test_mock):
+            # call requests
+            response = self.api.delete(
+                "products", custom_headers={'custom_header': 42}
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('custom_header' in response.headers)
+        self.assertEqual(response.headers['custom_header'], 42)
+
