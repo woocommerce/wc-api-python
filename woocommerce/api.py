@@ -27,6 +27,7 @@ class API(object):
         self.timeout = kwargs.get("timeout", 5)
         self.verify_ssl = kwargs.get("verify_ssl", True)
         self.query_string_auth = kwargs.get("query_string_auth", False)
+        self.filter_limit = kwargs.get("filter_limit", "-1")
 
     def __is_ssl(self):
         """ Check if url use HTTPS """
@@ -80,6 +81,8 @@ class API(object):
         if data is not None:
             data = jsonencode(data, ensure_ascii=False).encode('utf-8')
             headers["content-type"] = "application/json;charset=utf-8"
+
+        url += '?filter[limit]=%s' %(self.filter_limit)
 
         return request(
             method=method,
