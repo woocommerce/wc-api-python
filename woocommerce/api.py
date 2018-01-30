@@ -13,6 +13,12 @@ from requests import request
 from json import dumps as jsonencode
 from woocommerce.oauth import OAuth
 
+try:
+    # Python 3
+    import urllib.parse as parse
+except ImportError:
+    # Python 2
+    import urllib as parse
 
 class API(object):
     """ API Class """
@@ -92,8 +98,12 @@ class API(object):
             headers=headers
         )
 
-    def get(self, endpoint):
+    def get(self, endpoint, data=None):
         """ Get requests """
+        if data is not None:
+            # urlencode parameters to enable usage like
+            # wcapi.get("products", {"sku": 10001})
+            endpoint = '{}/?{}'.format(endpoint, parse.urlencode(data))
         return self.__request("GET", endpoint, None)
 
     def post(self, endpoint, data):

@@ -90,7 +90,7 @@ Methods
 GET
 ~~~
 
-- ``.get(endpoint)``
+- ``.get(endpoint, data)``
 
 POST
 ~~~~

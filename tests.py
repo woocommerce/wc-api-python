@@ -79,6 +79,19 @@ class WooCommerceTestCase(unittest.TestCase):
             status = self.api.get("products").status_code
         self.assertEqual(status, 200)
 
+    def test_get_with_parameters(self):
+        """ Test GET requests """
+        @all_requests
+        def woo_test_mock(*args, **kwargs):
+            """ URL Mock """
+            return {'status_code': 200,
+                    'content': 'OK'}
+
+        with HTTMock(woo_test_mock):
+            # call requests
+            status = self.api.get("products", {'sku': 10001}).status_code
+        self.assertEqual(status, 200)
+
     def test_post(self):
         """ Test POST requests """
         @all_requests
