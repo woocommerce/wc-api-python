@@ -103,7 +103,7 @@ class API(object):
         if data is not None:
             # urlencode parameters to enable usage like
             # wcapi.get("products", {"sku": 10001})
-            endpoint = '{}/?{}'.format(endpoint, parse.urlencode(data))
+            endpoint = '{0}/?{1}'.format(endpoint, parse.urlencode(data))
         return self.__request("GET", endpoint, None)
 
     def post(self, endpoint, data):
