@@ -101,7 +101,7 @@ class WooCommerceTestCase(unittest.TestCase):
 
         with HTTMock(woo_test_mock):
             # call requests
-            status = self.api.get("products", timeout=60, allow_redirects=True).status_code
+            status = self.api.get("products", allow_redirects=True).status_code
             self.assertEqual(status, 200)
 
     def test_post(self):
