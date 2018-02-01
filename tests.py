@@ -88,7 +88,7 @@ class WooCommerceTestCase(unittest.TestCase):
 
         with HTTMock(woo_test_mock):
             # call requests
-            status = self.api.get("products", params={'sku': 10001}).status_code
+            status = self.api.get("products", params={"per_page": 10, "page": 1, "offset": 0}).status_code
             self.assertEqual(status, 200)
 
     def test_get_with_requests_kwargs(self):
