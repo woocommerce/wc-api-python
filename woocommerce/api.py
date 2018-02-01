@@ -57,7 +57,7 @@ class API(object):
 
         return oauth.get_oauth_url()
 
-    def __request(self, method, endpoint, data, params: dict=None, **kwargs):
+    def __request(self, method, endpoint, data, params=None, **kwargs):
         """ Do requests """
         if params is None:
             params = {}
