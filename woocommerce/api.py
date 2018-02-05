@@ -13,6 +13,11 @@ from requests import request
 from json import dumps as jsonencode
 from woocommerce.oauth import OAuth
 
+DEFAULT_HEADERS = {
+    "user-agent": "WooCommerce API Client-Python/%s" % __version__,
+    "accept": "application/json"
+}
+
 
 class API(object):
     """ API Class """
@@ -27,6 +32,14 @@ class API(object):
         self.timeout = kwargs.get("timeout", 5)
         self.verify_ssl = kwargs.get("verify_ssl", True)
         self.query_string_auth = kwargs.get("query_string_auth", False)
+        self.default_headers = dict(
+            DEFAULT_HEADERS.items(), **kwargs.get("headers", {})
+        )
+
+    def __create_headers(self, headers):
+        if headers is not None:
+            return dict(self.default_headers.items(), **headers)
+        return self.default_headers
 
     def __is_ssl(self):
         """ Check if url use HTTPS """
@@ -62,13 +75,7 @@ class API(object):
         url = self.__get_url(endpoint)
         auth = None
         params = {}
-        headers = {
-            "user-agent": "WooCommerce API Client-Python/%s" % __version__,
-            "accept": "application/json"
-        }
-
-        if custom_headers is not None:
-            headers.update(custom_headers)
+        headers = self.__create_headers(custom_headers)
 
         if self.is_ssl is True and self.query_string_auth is False:
             auth = (self.consumer_key, self.consumer_secret)
