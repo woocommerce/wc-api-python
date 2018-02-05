@@ -159,7 +159,7 @@ class WooCommerceCustomHeadersTestCase(unittest.TestCase):
         with HTTMock(woo_test_mock):
             # call requests
             response = self.api.get(
-                "products", custom_headers={'custom_header': 42}
+                "products", headers={'custom_header': 42}
             )
         self.assertEqual(response.status_code, 200)
         self.assertTrue('custom_header' in response.headers)
@@ -177,7 +177,7 @@ class WooCommerceCustomHeadersTestCase(unittest.TestCase):
         with HTTMock(woo_test_mock):
             # call requests
             response = self.api.post(
-                "products", {}, custom_headers={'custom_header': 42}
+                "products", {}, headers={'custom_header': 42}
             )
         self.assertEqual(response.status_code, 201)
         self.assertTrue('custom_header' in response.headers)
@@ -196,7 +196,7 @@ class WooCommerceCustomHeadersTestCase(unittest.TestCase):
         with HTTMock(woo_test_mock):
             # call requests
             response = self.api.put(
-                "products", {}, custom_headers={'custom_header': 42}
+                "products", {}, headers={'custom_header': 42}
             )
         self.assertEqual(response.status_code, 200)
         self.assertTrue('custom_header' in response.headers)
@@ -215,7 +215,7 @@ class WooCommerceCustomHeadersTestCase(unittest.TestCase):
         with HTTMock(woo_test_mock):
             # call requests
             response = self.api.delete(
-                "products", custom_headers={'custom_header': 42}
+                "products", headers={'custom_header': 42}
             )
         self.assertEqual(response.status_code, 200)
         self.assertTrue('custom_header' in response.headers)

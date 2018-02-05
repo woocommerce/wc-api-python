@@ -95,22 +95,22 @@ class API(object):
             headers=headers
         )
 
-    def get(self, endpoint, custom_headers=None):
+    def get(self, endpoint, headers=None):
         """ Get requests """
-        return self.__request("GET", endpoint, None, custom_headers)
+        return self.__request("GET", endpoint, None, headers)
 
-    def post(self, endpoint, data, custom_headers=None):
+    def post(self, endpoint, data, headers=None):
         """ POST requests """
-        return self.__request("POST", endpoint, data, custom_headers)
+        return self.__request("POST", endpoint, data, headers)
 
-    def put(self, endpoint, data, custom_headers=None):
+    def put(self, endpoint, data, headers=None):
         """ PUT requests """
-        return self.__request("PUT", endpoint, data, custom_headers)
+        return self.__request("PUT", endpoint, data, headers)
 
-    def delete(self, endpoint, custom_headers=None):
+    def delete(self, endpoint, headers=None):
         """ DELETE requests """
-        return self.__request("DELETE", endpoint, None, custom_headers)
+        return self.__request("DELETE", endpoint, None, headers)
 
-    def options(self, endpoint, custom_headers=None):
+    def options(self, endpoint, headers=None):
         """ OPTIONS requests """
-        return self.__request("OPTIONS", endpoint, None, custom_headers)
+        return self.__request("OPTIONS", endpoint, None, headers)
