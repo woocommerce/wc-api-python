@@ -137,6 +137,11 @@ Example of returned data:
 Changelog
 ---------
 
+1.2.2 - 2018/02/05
+~~~~~~~~~~~~~~~~~~
+
+- Add custom HTTP headers support.
+
 1.2.1 - 2016/12/14
 ~~~~~~~~~~~~~~~~~~
 
