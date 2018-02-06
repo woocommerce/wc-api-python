@@ -158,7 +158,8 @@ class WooCommerceCustomHeadersTestCase(unittest.TestCase):
             consumer_secret=consumer_secret,
             headers=headers
         )
-        self.assertDictContainsSubset(headers, api.default_headers)
+        self.assertTrue('SOME_HTTP_HEADER' in api.default_headers)
+        self.assertEqual(api.default_headers['SOME_HTTP_HEADER'], 42)
 
     def test_get_with_custom_header(self):
         """ Test GET requests """
