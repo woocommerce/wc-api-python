@@ -32,14 +32,13 @@ class API(object):
         self.timeout = kwargs.get("timeout", 5)
         self.verify_ssl = kwargs.get("verify_ssl", True)
         self.query_string_auth = kwargs.get("query_string_auth", False)
-        self.default_headers = dict(
-            DEFAULT_HEADERS.items(), **kwargs.get("headers", {})
-        )
+        headers = kwargs.get("headers") or {}
+        self._default_headers = dict(DEFAULT_HEADERS.items(), **headers)
 
     def __create_headers(self, headers):
         if headers is not None:
-            return dict(self.default_headers.items(), **headers)
-        return self.default_headers
+            return dict(self._default_headers.items(), **headers)
+        return self._default_headers
 
     def __is_ssl(self):
         """ Check if url use HTTPS """
@@ -101,6 +100,10 @@ class API(object):
             timeout=self.timeout,
             headers=headers
         )
+
+    @property
+    def headers(self):
+        return self._default_headers
 
     def get(self, endpoint, headers=None):
         """ Get requests """

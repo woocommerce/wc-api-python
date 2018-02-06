@@ -148,6 +148,19 @@ class WooCommerceCustomHeadersTestCase(unittest.TestCase):
             headers={'SOME_DEFAULT_HTTP_HEADERS': 100500}
         )
 
+    def test_api_object_should_changeheaders_when_given_none(self):
+        consumer_key = "ck_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+        consumer_secret = "cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+        api = woocommerce.API(
+            url="http://woo.test",
+            consumer_key=consumer_key,
+            consumer_secret=consumer_secret,
+            headers=None
+        )
+        self.assertEqual(len(api.headers), 2)
+        self.assertTrue("user-agent" in api.headers)
+        self.assertTrue("accept" in api.headers)
+
     def test_api_object_should_contain_given_http_header(self):
         consumer_key = "ck_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
         consumer_secret = "cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
@@ -158,8 +171,8 @@ class WooCommerceCustomHeadersTestCase(unittest.TestCase):
             consumer_secret=consumer_secret,
             headers=headers
         )
-        self.assertTrue('SOME_HTTP_HEADER' in api.default_headers)
-        self.assertEqual(api.default_headers['SOME_HTTP_HEADER'], 42)
+        self.assertTrue('SOME_HTTP_HEADER' in api.headers)
+        self.assertEqual(api.headers['SOME_HTTP_HEADER'], 42)
 
     def test_get_with_custom_header(self):
         """ Test GET requests """
@@ -179,7 +192,7 @@ class WooCommerceCustomHeadersTestCase(unittest.TestCase):
         self.assertTrue('custom_header' in response.headers)
         self.assertEqual(response.headers['custom_header'], 42)
         self.assertEqual(
-            self.api.default_headers['SOME_DEFAULT_HTTP_HEADERS'], 100500
+            self.api.headers['SOME_DEFAULT_HTTP_HEADERS'], 100500
         )
 
     def test_post_with_custom_header(self):
@@ -200,7 +213,7 @@ class WooCommerceCustomHeadersTestCase(unittest.TestCase):
         self.assertTrue('custom_header' in response.headers)
         self.assertEqual(response.headers['custom_header'], 42)
         self.assertEqual(
-            self.api.default_headers['SOME_DEFAULT_HTTP_HEADERS'], 100500
+            self.api.headers['SOME_DEFAULT_HTTP_HEADERS'], 100500
         )
 
     def test_put_with_custom_header(self):
@@ -221,7 +234,7 @@ class WooCommerceCustomHeadersTestCase(unittest.TestCase):
         self.assertTrue('custom_header' in response.headers)
         self.assertEqual(response.headers['custom_header'], 42)
         self.assertEqual(
-            self.api.default_headers['SOME_DEFAULT_HTTP_HEADERS'], 100500
+            self.api.headers['SOME_DEFAULT_HTTP_HEADERS'], 100500
         )
 
 
@@ -243,5 +256,5 @@ class WooCommerceCustomHeadersTestCase(unittest.TestCase):
         self.assertTrue('custom_header' in response.headers)
         self.assertEqual(response.headers['custom_header'], 42)
         self.assertEqual(
-            self.api.default_headers['SOME_DEFAULT_HTTP_HEADERS'], 100500
+            self.api.headers['SOME_DEFAULT_HTTP_HEADERS'], 100500
         )
