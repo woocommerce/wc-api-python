@@ -17,16 +17,18 @@ import aiohttp
 class API(object):
     """ API Class """
 
-    def __init__(self, url, consumer_key, consumer_secret, **kwargs):
+    def __init__(self, url, consumer_key, consumer_secret, client_session, **kwargs):
         self.url = url
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
+        self.client_session = client_session
         self.wp_api = kwargs.get("wp_api", False)
         self.version = kwargs.get("version", "v3")
         self.is_ssl = self.__is_ssl()
         self.timeout = kwargs.get("timeout", 5)
         self.verify_ssl = kwargs.get("verify_ssl", True)
         self.query_string_auth = kwargs.get("query_string_auth", False)
+
 
     def __is_ssl(self):
         """ Check if url use HTTPS """
@@ -81,7 +83,7 @@ class API(object):
         if data is not None:
             data = jsonencode(data, ensure_ascii=False).encode('utf-8')
 
-        return await aiohttp.request(
+        return await self.client_session.request(
             method=method,
             url=url,
             #verify=self.verify_ssl,
