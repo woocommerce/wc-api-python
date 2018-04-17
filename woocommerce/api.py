@@ -78,7 +78,7 @@ class API(object):
             })
         else:
             encoded_params = urlencode(params)
-            url = "{url}?{params}".format(url=url, params=encoded_params)
+            url = "%s?%s" % (url, encoded_params)
             url = self.__get_oauth_url(url, method)
 
         if data is not None:
