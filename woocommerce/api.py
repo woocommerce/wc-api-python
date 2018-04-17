@@ -11,6 +11,7 @@ __license__ = "MIT"
 
 from requests import request
 from json import dumps as jsonencode
+from urllib.parse import urlencode
 from woocommerce.oauth import OAuth
 
 
@@ -76,6 +77,8 @@ class API(object):
                 "consumer_secret": self.consumer_secret
             })
         else:
+            encoded_params = urlencode(params)
+            url = "{url}?{params}".format(url=url, params=encoded_params)
             url = self.__get_oauth_url(url, method)
 
         if data is not None:
@@ -113,3 +116,4 @@ class API(object):
     def options(self, endpoint, **kwargs):
         """ OPTIONS requests """
         return self.__request("OPTIONS", endpoint, None, **kwargs)
+
