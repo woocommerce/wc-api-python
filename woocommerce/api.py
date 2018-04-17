@@ -11,8 +11,12 @@ __license__ = "MIT"
 
 from requests import request
 from json import dumps as jsonencode
-from urllib.parse import urlencode
 from woocommerce.oauth import OAuth
+
+try:
+    from urllib.parse import urlencode
+except ImportError:
+    from urllib import urlencode
 
 
 class API(object):
