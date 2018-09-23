@@ -65,7 +65,7 @@ class API(object):
         auth = None
         params = {}
         headers = {
-            "user-agent": "WooCommerce API Client-Python/%s" % __version__,
+            "user-agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
             "content-type": "application/json;charset=utf-8",
             "accept": "application/json"
         }
