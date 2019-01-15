@@ -20,26 +20,12 @@ Installation
 Getting started
 ---------------
 
-Generate API credentials (Consumer Key & Consumer Secret) following this instructions http://docs.woocommerce.com/document/woocommerce-rest-api/.
+Generate API credentials (Consumer Key & Consumer Secret) following this instructions http://woocommerce.github.io/woocommerce-rest-api-docs/#rest-api-keys.
 
 Check out the WooCommerce API endpoints and data that can be manipulated in http://woocommerce.github.io/woocommerce-rest-api-docs/.
 
 Setup
 -----
-
-Setup for the old WooCommerce API v3:
-
-.. code-block:: python
-
-    from woocommerce import API
-
-    wcapi = API(
-        url="http://example.com",
-        consumer_key="ck_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-        consumer_secret="cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-    )
-
-Setup for the new WP REST API integration (WooCommerce 2.6 or later):
 
 .. code-block:: python
 
@@ -50,7 +36,7 @@ Setup for the new WP REST API integration (WooCommerce 2.6 or later):
         consumer_key="ck_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         consumer_secret="cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         wp_api=True,
-        version="wc/v1"
+        version="wc/v3"
     )
 
 Options
@@ -75,6 +61,8 @@ Options
 +-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
 | ``query_string_auth`` | ``bool``    | no       | Force Basic Authentication as query string when ``True`` and using under HTTPS, default is ``False``  |
 +-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
+| ``oauth_timestamp`` | ``integer``    | no       | Custom timestamp for requests made with oAuth1.0a                                                    |
++-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
 
 Methods
 -------
@@ -86,31 +74,33 @@ Methods
 +--------------+----------------+------------------------------------------------------------------+
 | ``data``     | ``dictionary`` | Data that will be converted to JSON                              |
 +--------------+----------------+------------------------------------------------------------------+
+| ``**kwargs`` | ``dictionary`` | Accepts ``params``, also other Requests arguments                |
++--------------+----------------+------------------------------------------------------------------+
 
 GET
 ~~~
 
-- ``.get(endpoint)``
+- ``.get(endpoint, **kwargs)``
 
 POST
 ~~~~
 
-- ``.post(endpoint, data)``
+- ``.post(endpoint, data, **kwargs)``
 
 PUT
 ~~~
 
-- ``.put(endpoint, data)``
+- ``.put(endpoint, data), **kwargs``
 
 DELETE
 ~~~~~~
 
-- ``.delete(endpoint)``
+- ``.delete(endpoint, **kwargs)``
 
 OPTIONS
 ~~~~~~~
 
-- ``.options(endpoint)``
+- ``.options(endpoint, **kwargs)``
 
 Response
 --------
@@ -136,6 +126,13 @@ Example of returned data:
 
 Changelog
 ---------
+
+2.0.0 - 2019/01/15
+~~~~~~~~~~~~~~~~~~
+
+- Updated "Requests" library to version 2.20.0.
+- Added support for custom timestamps in oAuth1.0a requests with ``oauth_timestamp``.
+- Allow pass custom arguments to "Requests" library.
 
 1.2.1 - 2016/12/14
 ~~~~~~~~~~~~~~~~~~
