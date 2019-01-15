@@ -61,7 +61,7 @@ Options
 +-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
 | ``query_string_auth`` | ``bool``    | no       | Force Basic Authentication as query string when ``True`` and using under HTTPS, default is ``False``  |
 +-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
-| ``oauth_timestamp`` | ``integer``    | no       | Custom timestamp for requests made with oAuth1.0a                                                    |
+| ``oauth_timestamp``   | ``integer`` | no       | Custom timestamp for requests made with oAuth1.0a                                                     |
 +-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
 
 Methods
