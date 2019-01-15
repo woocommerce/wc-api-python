@@ -5,7 +5,7 @@ WooCommerce API Class
 """
 
 __title__ = "woocommerce-api"
-__version__ = "2.0.0"
+__version__ = "2.1.0"
 __author__ = "Claudio Sanches @ Automattic"
 __license__ = "MIT"
 
@@ -27,8 +27,8 @@ class API(object):
         self.url = url
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
-        self.wp_api = kwargs.get("wp_api", False)
-        self.version = kwargs.get("version", "v3")
+        self.wp_api = kwargs.get("wp_api", True)
+        self.version = kwargs.get("version", "wc/v3")
         self.is_ssl = self.__is_ssl()
         self.timeout = kwargs.get("timeout", 5)
         self.verify_ssl = kwargs.get("verify_ssl", True)
