@@ -5,8 +5,8 @@ WooCommerce OAuth1.0a Class
 """
 
 __title__ = "woocommerce-oauth"
-__version__ = "1.2.1"
-__author__ = "Claudio Sanches @ WooThemes"
+__version__ = "2.0.0"
+__author__ = "Claudio Sanches @ Automattic"
 __license__ = "MIT"
 
 from time import time
@@ -36,6 +36,7 @@ class OAuth(object):
         self.consumer_secret = consumer_secret
         self.version = kwargs.get("version", "v3")
         self.method = kwargs.get("method", "GET")
+        self.timestamp = kwargs.get("oauth_timestamp", int(time()))
 
     def get_oauth_url(self):
         """ Returns the URL with OAuth params """
@@ -49,7 +50,7 @@ class OAuth(object):
             url = self.url
 
         params["oauth_consumer_key"] = self.consumer_key
-        params["oauth_timestamp"] = int(time())
+        params["oauth_timestamp"] = self.timestamp
         params["oauth_nonce"] = self.generate_nonce()
         params["oauth_signature_method"] = "HMAC-SHA256"
         params["oauth_signature"] = self.generate_oauth_signature(params, url)

@@ -5,12 +5,13 @@ WooCommerce API Class
 """
 
 __title__ = "woocommerce-api"
-__version__ = "1.2.1"
-__author__ = "Claudio Sanches @ WooThemes"
+__version__ = "2.0.0"
+__author__ = "Claudio Sanches @ Automattic"
 __license__ = "MIT"
 
 from requests import request
 from json import dumps as jsonencode
+from time import time
 from woocommerce.oauth import OAuth
 
 try:
@@ -50,14 +51,15 @@ class API(object):
 
         return "%s%s/%s/%s" % (url, api, self.version, endpoint)
 
-    def __get_oauth_url(self, url, method):
+    def __get_oauth_url(self, url, method, **kwargs):
         """ Generate oAuth1.0a URL """
         oauth = OAuth(
             url=url,
             consumer_key=self.consumer_key,
             consumer_secret=self.consumer_secret,
             version=self.version,
-            method=method
+            method=method,
+            oauth_timestamp=kwargs.get("oauth_timestamp", int(time()))
         )
 
         return oauth.get_oauth_url()
@@ -83,7 +85,7 @@ class API(object):
         else:
             encoded_params = urlencode(params)
             url = "%s?%s" % (url, encoded_params)
-            url = self.__get_oauth_url(url, method)
+            url = self.__get_oauth_url(url, method, **kwargs)
 
         if data is not None:
             data = jsonencode(data, ensure_ascii=False).encode('utf-8')
