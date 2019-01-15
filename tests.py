@@ -79,6 +79,31 @@ class WooCommerceTestCase(unittest.TestCase):
             status = self.api.get("products").status_code
         self.assertEqual(status, 200)
 
+    def test_get_with_parameters(self):
+        """ Test GET requests w/ url params """
+        @all_requests
+        def woo_test_mock(*args, **kwargs):
+            return {'status_code': 200,
+                    'content': 'OK'}
+
+        with HTTMock(woo_test_mock):
+            # call requests
+            status = self.api.get("products", params={"per_page": 10, "page": 1, "offset": 0}).status_code
+            self.assertEqual(status, 200)
+
+    def test_get_with_requests_kwargs(self):
+        """ Test GET requests w/ optional requests-module kwargs """
+
+        @all_requests
+        def woo_test_mock(*args, **kwargs):
+            return {'status_code': 200,
+                    'content': 'OK'}
+
+        with HTTMock(woo_test_mock):
+            # call requests
+            status = self.api.get("products", allow_redirects=True).status_code
+            self.assertEqual(status, 200)
+
     def test_post(self):
         """ Test POST requests """
         @all_requests

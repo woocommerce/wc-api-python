@@ -13,6 +13,11 @@ from requests import request
 from json import dumps as jsonencode
 from woocommerce.oauth import OAuth
 
+try:
+    from urllib.parse import urlencode
+except ImportError:
+    from urllib import urlencode
+
 
 class API(object):
     """ API Class """
@@ -57,11 +62,12 @@ class API(object):
 
         return oauth.get_oauth_url()
 
-    def __request(self, method, endpoint, data):
+    def __request(self, method, endpoint, data, params=None, **kwargs):
         """ Do requests """
+        if params is None:
+            params = {}
         url = self.__get_url(endpoint)
         auth = None
-        params = {}
         headers = {
             "user-agent": "WooCommerce API Client-Python/%s" % __version__,
             "accept": "application/json"
@@ -70,11 +76,13 @@ class API(object):
         if self.is_ssl is True and self.query_string_auth is False:
             auth = (self.consumer_key, self.consumer_secret)
         elif self.is_ssl is True and self.query_string_auth is True:
-            params = {
+            params.update({
                 "consumer_key": self.consumer_key,
                 "consumer_secret": self.consumer_secret
-            }
+            })
         else:
+            encoded_params = urlencode(params)
+            url = "%s?%s" % (url, encoded_params)
             url = self.__get_oauth_url(url, method)
 
         if data is not None:
@@ -89,25 +97,27 @@ class API(object):
             params=params,
             data=data,
             timeout=self.timeout,
-            headers=headers
+            headers=headers,
+            **kwargs
         )
 
-    def get(self, endpoint):
+    def get(self, endpoint, **kwargs):
         """ Get requests """
-        return self.__request("GET", endpoint, None)
+        return self.__request("GET", endpoint, None, **kwargs)
 
-    def post(self, endpoint, data):
+    def post(self, endpoint, data, **kwargs):
         """ POST requests """
-        return self.__request("POST", endpoint, data)
+        return self.__request("POST", endpoint, data, **kwargs)
 
-    def put(self, endpoint, data):
+    def put(self, endpoint, data, **kwargs):
         """ PUT requests """
-        return self.__request("PUT", endpoint, data)
+        return self.__request("PUT", endpoint, data, **kwargs)
 
-    def delete(self, endpoint):
+    def delete(self, endpoint, **kwargs):
         """ DELETE requests """
-        return self.__request("DELETE", endpoint, None)
+        return self.__request("DELETE", endpoint, None, **kwargs)
 
-    def options(self, endpoint):
+    def options(self, endpoint, **kwargs):
         """ OPTIONS requests """
-        return self.__request("OPTIONS", endpoint, None)
+        return self.__request("OPTIONS", endpoint, None, **kwargs)
+
