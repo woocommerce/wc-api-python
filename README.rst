@@ -35,7 +35,6 @@ Setup
         url="http://example.com",
         consumer_key="ck_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         consumer_secret="cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-        wp_api=True,
         version="wc/v3"
     )
 
@@ -47,13 +46,11 @@ Options
 +=======================+=============+==========+=======================================================================================================+
 | ``url``               | ``string``  | yes      | Your Store URL, example: http://woo.dev/                                                              |
 +-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
-| ``consumerKey``       | ``string``  | yes      | Your API consumer key                                                                                 |
+| ``consumer_key``      | ``string``  | yes      | Your API consumer key                                                                                 |
 +-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
-| ``consumerSecret``    | ``string``  | yes      | Your API consumer secret                                                                              |
+| ``consumer_secret``   | ``string``  | yes      | Your API consumer secret                                                                              |
 +-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
-| ``wp_api``            | ``bool``    | no       | Allow requests to the WP REST API (WooCommerce 2.6 or later)                                          |
-+-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
-| ``version``           | ``string``  | no       | API version, default is ``v3``                                                                        |
+| ``version``           | ``string``  | no       | API version, default is ``wc/v3``                                                                     |
 +-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
 | ``timeout``           | ``integer`` | no       | Connection timeout, default is ``5``                                                                  |
 +-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
@@ -62,6 +59,8 @@ Options
 | ``query_string_auth`` | ``bool``    | no       | Force Basic Authentication as query string when ``True`` and using under HTTPS, default is ``False``  |
 +-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
 | ``oauth_timestamp``   | ``integer`` | no       | Custom timestamp for requests made with oAuth1.0a                                                     |
++-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
+| ``wp_api``            | ``bool``    | no       | Set to false in order to use the legacy WooCommerce API (deprecated)                                  |
 +-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
 
 Methods
@@ -126,6 +125,12 @@ Example of returned data:
 
 Changelog
 ---------
+
+2.1.0 - 2019/01/15
+~~~~~~~~~~~~~~~~~~
+
+- Uses WP REST API by default, need to force ``wp_api`` as ``False`` to in order to use the legacy WooCommerce API.
+- Updated default REST API version to ``wc/v3``.
 
 2.0.0 - 2019/01/15
 ~~~~~~~~~~~~~~~~~~
