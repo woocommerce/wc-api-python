@@ -129,7 +129,7 @@ Changelog
 2.1.0 - 2019/01/15
 ~~~~~~~~~~~~~~~~~~
 
-- Uses WP REST API by default, need to force ``wp_api`` as ``False`` to in order to use the legacy WooCommerce API.
+- Uses WP REST API by default, need to force ``wp_api`` as ``False`` in order to use the legacy WooCommerce API.
 - Updated default REST API version to ``wc/v3``.
 
 2.0.0 - 2019/01/15
