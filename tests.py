@@ -25,7 +25,7 @@ class WooCommerceTestCase(unittest.TestCase):
             consumer_secret=self.consumer_secret
         )
 
-        self.assertEqual(api.version, "v3")
+        self.assertEqual(api.version, "wc/v3")
 
     def test_non_ssl(self):
         """ Test non-ssl """
@@ -37,7 +37,7 @@ class WooCommerceTestCase(unittest.TestCase):
         self.assertFalse(api.is_ssl)
 
     def test_with_ssl(self):
-        """ Test non-ssl """
+        """ Test ssl """
         api = woocommerce.API(
             url="https://woo.test",
             consumer_key=self.consumer_key,
@@ -46,7 +46,7 @@ class WooCommerceTestCase(unittest.TestCase):
         self.assertTrue(api.is_ssl, True)
 
     def test_with_timeout(self):
-        """ Test non-ssl """
+        """ Test timeout """
         api = woocommerce.API(
             url="https://woo.test",
             consumer_key=self.consumer_key,
