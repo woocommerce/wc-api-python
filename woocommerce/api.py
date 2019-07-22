@@ -5,7 +5,7 @@ WooCommerce API Class
 """
 
 __title__ = "woocommerce-api"
-__version__ = "2.1.0"
+__version__ = "2.1.1"
 __author__ = "Claudio Sanches @ Automattic"
 __license__ = "MIT"
 

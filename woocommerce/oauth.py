@@ -5,7 +5,7 @@ WooCommerce OAuth1.0a Class
 """
 
 __title__ = "woocommerce-oauth"
-__version__ = "2.0.0"
+__version__ = "2.1.1"
 __author__ = "Claudio Sanches @ Automattic"
 __license__ = "MIT"
 
