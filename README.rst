@@ -122,6 +122,26 @@ Example of returned data:
     >>> r.json()
     {u'products': [{u'sold_individually': False,... // Dictionary data
 
+Request with `params` example
+-----------------------------
+
+.. code-block:: python
+
+    from woocommerce import API
+
+    wcapi = API(
+        url="http://example.com",
+        consumer_key="ck_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        consumer_secret="cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        version="wc/v3"
+    )
+
+    # Force delete example.
+    print(wcapi.delete("products/100", params={"force": True}).json())
+
+    # Query example.
+    print(wcapi.get("products", params={"per_page": 20}).json())
+
 
 Changelog
 ---------
