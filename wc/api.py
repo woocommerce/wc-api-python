@@ -59,16 +59,23 @@ class API(object):
 
         return oauth.get_oauth_url()
 
-    async def request(self, method, endpoint, data):
+    async def request(self, method, endpoint, data, ignore_headers):
         """ Do requests """
         url = self.__get_url(endpoint)
         auth = None
         params = {}
-        headers = {
-            "user-agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
-            "content-type": "application/json;charset=utf-8",
-            "accept": "application/json"
-        }
+
+        if ignore_headers:
+            # It was discovered in https://github.com/channable/issues/issues/1929 that not sending
+            # the 'content-type' and 'accept' headers will solve an issue where the api returns an
+            # invalid json response beginning with `Order:<br/>{}`
+            headers = {"user-agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"}
+        else:
+            headers = {
+                "user-agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
+                "content-type": "application/json;charset=utf-8",
+                "accept": "application/json"
+            }
 
         if self.is_ssl is True and self.query_string_auth is False:
             auth = aiohttp.BasicAuth(self.consumer_key, self.consumer_secret)
