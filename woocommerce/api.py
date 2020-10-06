@@ -5,7 +5,7 @@ WooCommerce API Class
 """
 
 __title__ = "woocommerce-api"
-__version__ = "2.1.1"
+__version__ = "2.1.2"
 __author__ = "Claudio Sanches @ Automattic"
 __license__ = "MIT"
 
@@ -13,6 +13,7 @@ from requests import request
 from json import dumps as jsonencode
 from time import time
 from woocommerce.oauth import OAuth
+from requests.auth import HTTPBasicAuth
 
 try:
     from urllib.parse import urlencode
@@ -44,12 +45,12 @@ class API(object):
         api = "wc-api"
 
         if url.endswith("/") is False:
-            url = "%s/" % url
+            url = f"{url}/"
 
         if self.wp_api:
             api = "wp-json"
 
-        return "%s%s/%s/%s" % (url, api, self.version, endpoint)
+        return f"{url}{api}/{self.version}/{endpoint}"
 
     def __get_oauth_url(self, url, method, **kwargs):
         """ Generate oAuth1.0a URL """
@@ -71,12 +72,12 @@ class API(object):
         url = self.__get_url(endpoint)
         auth = None
         headers = {
-            "user-agent": "WooCommerce API Client-Python/%s" % __version__,
+            "user-agent": f'WooCommerce API {__version__}',
             "accept": "application/json"
         }
 
         if self.is_ssl is True and self.query_string_auth is False:
-            auth = (self.consumer_key, self.consumer_secret)
+            auth = HTTPBasicAuth(self.consumer_key, self.consumer_secret)
         elif self.is_ssl is True and self.query_string_auth is True:
             params.update({
                 "consumer_key": self.consumer_key,
@@ -84,7 +85,7 @@ class API(object):
             })
         else:
             encoded_params = urlencode(params)
-            url = "%s?%s" % (url, encoded_params)
+            url = f"{url}?{encoded_params}"
             url = self.__get_oauth_url(url, method, **kwargs)
 
         if data is not None:
@@ -122,4 +123,3 @@ class API(object):
     def options(self, endpoint, **kwargs):
         """ OPTIONS requests """
         return self.__request("OPTIONS", endpoint, None, **kwargs)
-
