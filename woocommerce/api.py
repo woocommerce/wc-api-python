@@ -34,6 +34,7 @@ class API(object):
         self.timeout = kwargs.get("timeout", 5)
         self.verify_ssl = kwargs.get("verify_ssl", True)
         self.query_string_auth = kwargs.get("query_string_auth", False)
+        self.user_agent = kwargs.get("user_agent", f"WooCommerce-Python-REST-API/{__version__}")
 
     def __is_ssl(self):
         """ Check if url use HTTPS """
@@ -72,7 +73,7 @@ class API(object):
         url = self.__get_url(endpoint)
         auth = None
         headers = {
-            "user-agent": f"WooCommerce API {__version__}",
+            "user-agent": f"{self.user_agent}",
             "accept": "application/json"
         }
 
