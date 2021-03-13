@@ -14,11 +14,7 @@ from json import dumps as jsonencode
 from time import time
 from woocommerce.oauth import OAuth
 from requests.auth import HTTPBasicAuth
-
-try:
-    from urllib.parse import urlencode
-except ImportError:
-    from urllib import urlencode
+from urllib.parse import urlencode
 
 
 class API(object):
