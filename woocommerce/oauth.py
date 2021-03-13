@@ -17,6 +17,7 @@ from base64 import b64encode
 from collections import OrderedDict
 from urllib.parse import urlencode, quote, unquote, parse_qsl, urlparse
 
+
 class OAuth(object):
     """ API Class """
 
