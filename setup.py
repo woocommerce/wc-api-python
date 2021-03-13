@@ -27,7 +27,7 @@ setup(
     description="A Python wrapper for the WooCommerce REST API",
     long_description=README,
     author="Claudio Sanches @ Automattic",
-    author_email="claudio+pypi@automattic.com"
+    author_email="claudio+pypi@automattic.com",
     url="https://github.com/woocommerce/wc-api-python",
     license="MIT License",
     packages=[
