@@ -5,7 +5,7 @@ WooCommerce OAuth1.0a Class
 """
 
 __title__ = "woocommerce-oauth"
-__version__ = "2.1.1"
+__version__ = "3.0.0"
 __author__ = "Claudio Sanches @ Automattic"
 __license__ = "MIT"
 
@@ -14,18 +14,8 @@ from random import randint
 from hmac import new as HMAC
 from hashlib import sha1, sha256
 from base64 import b64encode
-
-try:
-    from urllib.parse import urlencode, quote, unquote, parse_qsl, urlparse
-except ImportError:
-    from urllib import urlencode, quote, unquote
-    from urlparse import parse_qsl, urlparse
-
-try:
-    from collections import OrderedDict
-except ImportError:
-    from ordereddict import OrderedDict
-
+from collections import OrderedDict
+from urllib.parse import urlencode, quote, unquote, parse_qsl, urlparse
 
 class OAuth(object):
     """ API Class """
@@ -57,7 +47,7 @@ class OAuth(object):
 
         query_string = urlencode(params)
 
-        return "%s?%s" % (url, query_string)
+        return f"{url}?{query_string}"
 
     def generate_oauth_signature(self, params, url):
         """ Generate OAuth Signature """
@@ -71,7 +61,7 @@ class OAuth(object):
                         for key, value in params.items()]
 
         query_string = "%26".join(query_params)
-        string_to_sign = "%s&%s&%s" % (self.method, base_request_uri, query_string)
+        string_to_sign = f"{self.method}&{base_request_uri}&{query_string}"
 
         consumer_secret = str(self.consumer_secret)
         if self.version not in ["v1", "v2"]:

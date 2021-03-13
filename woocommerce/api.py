@@ -5,7 +5,7 @@ WooCommerce API Class
 """
 
 __title__ = "woocommerce-api"
-__version__ = "2.1.2"
+__version__ = "3.0.0"
 __author__ = "Claudio Sanches @ Automattic"
 __license__ = "MIT"
 
@@ -72,7 +72,7 @@ class API(object):
         url = self.__get_url(endpoint)
         auth = None
         headers = {
-            "user-agent": f'WooCommerce API {__version__}',
+            "user-agent": f"WooCommerce API {__version__}",
             "accept": "application/json"
         }
 

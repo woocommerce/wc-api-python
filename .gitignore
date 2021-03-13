@@ -4,6 +4,6 @@ __pycache__
 build/
 dist/
 *.egg-info/
-run.py
-run3.py
+sample.py
 .vscode/
+env/
