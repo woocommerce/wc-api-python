@@ -10,4 +10,4 @@ install:
   - pip install .
   - pip install -r requirements-test.txt
 # command to run tests
-script: nosetests
+script: pytest
