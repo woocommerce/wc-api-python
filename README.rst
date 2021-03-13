@@ -3,8 +3,8 @@ WooCommerce API - Python Client
 
 A Python wrapper for the WooCommerce REST API. Easily interact with the WooCommerce REST API using this library.
 
-.. image:: https://secure.travis-ci.org/woocommerce/wc-api-python.svg
-    :target: http://travis-ci.org/woocommerce/wc-api-python
+.. image:: https://github.com/woocommerce/wc-api-python/actions/workflows/ci.yml/badge.svg?branch=trunk
+    :target: https://github.com/woocommerce/wc-api-python/actions/workflows/ci.yml
 
 .. image:: https://img.shields.io/pypi/v/woocommerce.svg
     :target: https://pypi.python.org/pypi/WooCommerce
