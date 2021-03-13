@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2021-03-13
+### Removed
+- Removed support to legacy Python versions, now supports Python 3.6+.
+- Removed ordereddict package dependency.
+### Added
+- Added support for Python 3.8 and Python 3.9.
+- Added option to set custom `user_agent`.
+### Changed
+- Updated default "User-Agent" to `WooCommerce-Python-REST-API/3.0.0`.
+- Updated Request library to 2.25.1.
+### Fixed
+- Fixed Basic Auth in Python 3.8.
+
 ## [2.1.1] - 2019-07-22
 ### Changed
 - Updated Request library to 2.22.0.
@@ -64,8 +77,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.com/woocommerce/wc-api-python/compare/1.0.0...HEAD
-[2.1.1]: https://github.com/woocommerce/wc-api-python/compare/2.1.1...2.1.1
+[Unreleased]: https://github.com/woocommerce/wc-api-python/compare/3.0.0...HEAD
+[3.0.0]: https://github.com/woocommerce/wc-api-python/compare/2.1.1...3.0.0
+[2.1.1]: https://github.com/woocommerce/wc-api-python/compare/2.0.1...2.1.1
 [2.1.0]: https://github.com/woocommerce/wc-api-python/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/woocommerce/wc-api-python/compare/1.2.1...2.0.0
 [1.2.1]: https://github.com/woocommerce/wc-api-python/compare/1.2.0...1.2.1
