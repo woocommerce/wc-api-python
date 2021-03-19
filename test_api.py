@@ -104,6 +104,28 @@ class WooCommerceTestCase(unittest.TestCase):
             status = self.api.get("products", allow_redirects=True).status_code
             self.assertEqual(status, 200)
 
+    def test_get_with_custom_headers(self):
+        """ Test GET requests w/ optional requests-module kwargs """
+        api = woocommerce.API(
+            url="https://woo.test",
+            consumer_key=self.consumer_key,
+            consumer_secret=self.consumer_secret,
+            timeout=10,
+            headers={'cache-control': 'no-cache'}
+        )
+
+        @all_requests
+        def woo_test_mock(*args, **kwargs):
+            return {'status_code': 200,
+                    'content': 'OK'}
+
+        with HTTMock(woo_test_mock):
+            # call requests
+            headers = api.get("products").request.headers
+            self.assertEqual(headers['user-agent'], api.user_agent)
+            self.assertEqual(headers['accept'], 'application/json')
+            self.assertEqual(headers['cache-control'], 'no-cache')
+
     def test_post(self):
         """ Test POST requests """
         @all_requests
