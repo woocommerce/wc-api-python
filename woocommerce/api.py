@@ -5,7 +5,7 @@ WooCommerce API Class
 """
 
 __title__ = "woocommerce-api"
-__version__ = "3.0.0"
+__version__ = "3.1.0"
 __author__ = "Claudio Sanches @ Automattic"
 __license__ = "MIT"
 
@@ -26,11 +26,22 @@ class API(object):
         self.consumer_secret = consumer_secret
         self.wp_api = kwargs.get("wp_api", True)
         self.version = kwargs.get("version", "wc/v3")
+        self.custom_headers = kwargs.get("headers", {})
         self.is_ssl = self.__is_ssl()
         self.timeout = kwargs.get("timeout", 5)
         self.verify_ssl = kwargs.get("verify_ssl", True)
         self.query_string_auth = kwargs.get("query_string_auth", False)
         self.user_agent = kwargs.get("user_agent", f"WooCommerce-Python-REST-API/{__version__}")
+
+    def __headers(self):
+        """ Build and return a dict of headers for the request """
+        headers = {}
+        headers.update({
+            "user-agent": f"{self.user_agent}",
+            "accept": "application/json"
+        })
+        headers.update(self.custom_headers or {})
+        return headers
 
     def __is_ssl(self):
         """ Check if url use HTTPS """
@@ -68,10 +79,7 @@ class API(object):
             params = {}
         url = self.__get_url(endpoint)
         auth = None
-        headers = {
-            "user-agent": f"{self.user_agent}",
-            "accept": "application/json"
-        }
+        headers = self.__headers()
 
         if self.is_ssl is True and self.query_string_auth is False:
             auth = HTTPBasicAuth(self.consumer_key, self.consumer_secret)
