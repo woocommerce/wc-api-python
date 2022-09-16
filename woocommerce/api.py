@@ -5,16 +5,19 @@ WooCommerce API Class
 """
 
 __title__ = "woocommerce-api"
-__version__ = "3.0.0"
-__author__ = "Claudio Sanches @ Automattic"
+__version__ = "3.0.1"
+__author__ = "Claudio Sanches & Antoine C"
 __license__ = "MIT"
 
-from requests import request
 from json import dumps as jsonencode
 from time import time
-from woocommerce.oauth import OAuth
-from requests.auth import HTTPBasicAuth
 from urllib.parse import urlencode
+
+from requests import session
+from requests.adapters import HTTPAdapter, Retry
+from requests.auth import HTTPBasicAuth
+
+from woocommerce.oauth import OAuth
 
 
 class API(object):
@@ -31,6 +34,10 @@ class API(object):
         self.verify_ssl = kwargs.get("verify_ssl", True)
         self.query_string_auth = kwargs.get("query_string_auth", False)
         self.user_agent = kwargs.get("user_agent", f"WooCommerce-Python-REST-API/{__version__}")
+        self.retries = kwargs.get("retries", 3)
+        self.backoff_factor = kwargs.get("backoff_factor", 0.3)
+        self.status_forcelist = kwargs.get("status_forcelist", [500, 502, 503, 504, 429])
+        self.session = session()
 
     def __is_ssl(self):
         """ Check if url use HTTPS """
@@ -73,6 +80,16 @@ class API(object):
             "accept": "application/json"
         }
 
+        retry = Retry(
+            total=self.retries,
+            read=self.retries,
+            connect=self.retries,
+            backoff_factor=self.backoff_factor,
+            status_forcelist=self.status_forcelist,
+        )
+
+        adapter = HTTPAdapter(max_retries=retry)
+
         if self.is_ssl is True and self.query_string_auth is False:
             auth = HTTPBasicAuth(self.consumer_key, self.consumer_secret)
         elif self.is_ssl is True and self.query_string_auth is True:
@@ -89,7 +106,12 @@ class API(object):
             data = jsonencode(data, ensure_ascii=False).encode('utf-8')
             headers["content-type"] = "application/json;charset=utf-8"
 
-        return request(
+        if self.is_ssl:
+            self.session.mount("https://", adapter)
+        else:
+            self.session.mount("http://", adapter)
+
+        return self.session.request(
             method=method,
             url=url,
             verify=self.verify_ssl,
