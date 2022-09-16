@@ -1,8 +1,10 @@
 """ API Tests """
 import unittest
+
+from httmock import HTTMock, all_requests
+
 import woocommerce
 from woocommerce import oauth
-from httmock import all_requests, HTTMock
 
 
 class WooCommerceTestCase(unittest.TestCase):

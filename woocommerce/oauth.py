@@ -5,17 +5,17 @@ WooCommerce OAuth1.0a Class
 """
 
 __title__ = "woocommerce-oauth"
-__version__ = "3.0.0"
-__author__ = "Claudio Sanches @ Automattic"
+__version__ = "3.0.1"
+__author__ = "Claudio Sanches & Antoine C"
 __license__ = "MIT"
 
-from time import time
-from random import randint
-from hmac import new as HMAC
-from hashlib import sha1, sha256
 from base64 import b64encode
 from collections import OrderedDict
-from urllib.parse import urlencode, quote, unquote, parse_qsl, urlparse
+from hashlib import sha1, sha256
+from hmac import new as HMAC
+from random import randint
+from time import time
+from urllib.parse import parse_qsl, quote, unquote, urlencode, urlparse
 
 
 class OAuth(object):

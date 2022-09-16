@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 """ Setup module """
 
-from setuptools import setup
 import os
 import re
 
+from setuptools import setup
 
 # Get version from __init__.py file
 VERSION = ""
@@ -26,7 +26,7 @@ setup(
     version=VERSION,
     description="A Python wrapper for the WooCommerce REST API",
     long_description=README,
-    author="Claudio Sanches @ Automattic",
+    author="Claudio Sanches & Antoine C",
     author_email="claudio+pypi@automattic.com",
     url="https://github.com/woocommerce/wc-api-python",
     license="MIT License",
@@ -49,6 +49,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
     keywords='woocommerce rest api',
