@@ -8,3 +8,4 @@ sample.py
 .vscode/
 env/
 .pytest_cache/
+venv/
