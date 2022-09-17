@@ -19,7 +19,7 @@ from urllib.parse import parse_qsl, quote, unquote, urlencode, urlparse
 
 
 class OAuth(object):
-    """ API Class """
+    """API Class"""
 
     def __init__(self, url, consumer_key, consumer_secret, **kwargs):
         self.url = url
@@ -30,11 +30,11 @@ class OAuth(object):
         self.timestamp = kwargs.get("oauth_timestamp", int(time()))
 
     def get_oauth_url(self):
-        """ Returns the URL with OAuth params """
+        """Returns the URL with OAuth params"""
         params = OrderedDict()
 
         if "?" in self.url:
-            url = self.url[:self.url.find("?")]
+            url = self.url[: self.url.find("?")]
             for key, value in parse_qsl(urlparse(self.url).query):
                 params[key] = value
         else:
@@ -51,15 +51,17 @@ class OAuth(object):
         return f"{url}?{query_string}"
 
     def generate_oauth_signature(self, params, url):
-        """ Generate OAuth Signature """
+        """Generate OAuth Signature"""
         if "oauth_signature" in params.keys():
             del params["oauth_signature"]
 
         base_request_uri = quote(url, "")
         params = self.sorted_params(params)
         params = self.normalize_parameters(params)
-        query_params = ["{param_key}%3D{param_value}".format(param_key=key, param_value=value)
-                        for key, value in params.items()]
+        query_params = [
+            "{param_key}%3D{param_value}".format(param_key=key, param_value=value)
+            for key, value in params.items()
+        ]
 
         query_string = "%26".join(query_params)
         string_to_sign = f"{self.method}&{base_request_uri}&{query_string}"
@@ -69,9 +71,7 @@ class OAuth(object):
             consumer_secret += "&"
 
         hash_signature = HMAC(
-            consumer_secret.encode(),
-            str(string_to_sign).encode(),
-            sha256
+            consumer_secret.encode(), str(string_to_sign).encode(), sha256
         ).digest()
 
         return b64encode(hash_signature).decode("utf-8").replace("\n", "")
@@ -79,23 +79,23 @@ class OAuth(object):
     @staticmethod
     def sorted_params(params):
         ordered = OrderedDict()
-        base_keys = sorted(set(k.split('[')[0] for k in params.keys()))
+        base_keys = sorted(set(k.split("[")[0] for k in params.keys()))
 
         for base in base_keys:
             for key in params.keys():
-                if key == base or key.startswith(base + '['):
+                if key == base or key.startswith(base + "["):
                     ordered[key] = params[key]
 
         return ordered
 
     @staticmethod
     def normalize_parameters(params):
-        """ Normalize parameters """
+        """Normalize parameters"""
         params = params or {}
         normalized_parameters = OrderedDict()
 
         def get_value_like_as_php(val):
-            """ Prepare value for quote """
+            """Prepare value for quote"""
             try:
                 base = basestring
             except NameError:
@@ -122,10 +122,6 @@ class OAuth(object):
 
     @staticmethod
     def generate_nonce():
-        """ Generate nonce number """
-        nonce = ''.join([str(randint(0, 9)) for i in range(8)])
-        return HMAC(
-            nonce.encode(),
-            "secret".encode(),
-            sha1
-        ).hexdigest()
+        """Generate nonce number"""
+        nonce = "".join([str(randint(0, 9)) for i in range(8)])
+        return HMAC(nonce.encode(), "secret".encode(), sha1).hexdigest()
