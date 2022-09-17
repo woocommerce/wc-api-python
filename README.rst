@@ -1,4 +1,4 @@
-WooCommerce API Unoficial - Python Client
+WooCommerce API Unofficial - Python Client
 ===============================
 
 **Having no feedback from the creator of wc-api-python, I have forked the project to add the session functionality of requests and the Retry functionality**
