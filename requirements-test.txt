@@ -1,4 +1,0 @@
--r requirements.txt
-httmock==1.4.0
-pytest==6.2.2
-flake8==3.8.4

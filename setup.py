@@ -2,15 +2,17 @@
 # -*- coding: utf-8 -*-
 """ Setup module """
 
-from setuptools import setup
 import os
 import re
 
+from setuptools import setup
 
 # Get version from __init__.py file
 VERSION = ""
 with open("woocommerce/__init__.py", "r") as fd:
-    VERSION = re.search(r"^__version__\s*=\s*['\"]([^\"]*)['\"]", fd.read(), re.MULTILINE).group(1)
+    VERSION = re.search(
+        r"^__version__\s*=\s*['\"]([^\"]*)['\"]", fd.read(), re.MULTILINE
+    ).group(1)
 
 if not VERSION:
     raise RuntimeError("Cannot find version information")
@@ -26,18 +28,14 @@ setup(
     version=VERSION,
     description="A Python wrapper for the WooCommerce REST API",
     long_description=README,
-    author="Claudio Sanches @ Automattic",
+    author="Claudio Sanches & Antoine C",
     author_email="claudio+pypi@automattic.com",
     url="https://github.com/woocommerce/wc-api-python",
     license="MIT License",
-    packages=[
-        "woocommerce"
-    ],
+    packages=["woocommerce"],
     include_package_data=True,
-    platforms=['any'],
-    install_requires=[
-        "requests"
-    ],
+    platforms=["any"],
+    install_requires=["requests"],
     python_requires=">=3.6",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -49,12 +47,13 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
-        "Topic :: Software Development :: Libraries :: Python Modules"
+        "Programming Language :: Python :: 3.10",
+        "Topic :: Software Development :: Libraries :: Python Modules",
     ],
-    keywords='woocommerce rest api',
+    keywords="woocommerce rest api",
     project_urls={
-        'Documentation': 'https://woocommerce.github.io/woocommerce-rest-api-docs/?python#libraries-and-tools',
-        'Source': 'https://github.com/woocommerce/wc-api-python',
-        'Tracker': 'https://github.com/woocommerce/wc-api-python/issues',
+        "Documentation": "https://woocommerce.github.io/woocommerce-rest-api-docs/?python#libraries-and-tools",
+        "Source": "https://github.com/woocommerce/wc-api-python",
+        "Tracker": "https://github.com/woocommerce/wc-api-python/issues",
     },
 )

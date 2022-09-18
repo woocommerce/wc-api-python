@@ -1,5 +1,7 @@
-WooCommerce API - Python Client
+WooCommerce API Unofficial - Python Client
 ===============================
+
+**Having no feedback from the creator of wc-api-python, I have forked the project to add the session functionality of requests and the Retry functionality**
 
 A Python wrapper for the WooCommerce REST API. Easily interact with the WooCommerce REST API using this library.
 
@@ -62,7 +64,11 @@ Options
 +-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
 | ``oauth_timestamp``   | ``integer`` | no       | Custom timestamp for requests made with oAuth1.0a                                                     |
 +-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
-| ``wp_api``            | ``bool``    | no       | Set to ``False`` in order to use the legacy WooCommerce API (deprecated)                              |
+| ``retries``           | ``int``     | no       | Set to ``3`` in order to retry 3 times before exiting.                                                |
++-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
+| ``backoff_factor``    | ``float``   | no       | Set to ``0.3``. Change how long the processes will sleep between failed requests (exponential).       |
++-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
+| ``status_forcelist``  | ``list``    | no       | Set to ``[500, 502, 503, 504, 429]`` List of status on which we have to try again                     |
 +-----------------------+-------------+----------+-------------------------------------------------------------------------------------------------------+
 
 Methods

@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.1] - 2022-09-17
+### Added
+
+- Added `session` creation to the API object
+- Added `Retry` to the API object
+
 ## [3.0.0] - 2021-03-13
 ### Removed
 - Removed support to legacy Python versions, now supports Python 3.6+.
@@ -77,7 +83,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.com/woocommerce/wc-api-python/compare/3.0.0...HEAD
 [3.0.0]: https://github.com/woocommerce/wc-api-python/compare/2.1.1...3.0.0
 [2.1.1]: https://github.com/woocommerce/wc-api-python/compare/2.0.1...2.1.1
 [2.1.0]: https://github.com/woocommerce/wc-api-python/compare/2.0.0...2.1.0

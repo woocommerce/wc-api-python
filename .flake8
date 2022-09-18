@@ -1,2 +1,4 @@
 [flake8]
 per-file-ignores = __init__.py:F401
+exclude = .git,__pycache__,build,dist,venv,WooCommerce.egg-info
+max-line-length = 120
