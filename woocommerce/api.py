@@ -10,6 +10,7 @@ __author__ = "Claudio Sanches @ Automattic"
 __license__ = "MIT"
 
 from requests import request
+from requests import Session
 from json import dumps as jsonencode
 from time import time
 from woocommerce.oauth import OAuth
@@ -31,6 +32,7 @@ class API(object):
         self.verify_ssl = kwargs.get("verify_ssl", True)
         self.query_string_auth = kwargs.get("query_string_auth", False)
         self.user_agent = kwargs.get("user_agent", f"WooCommerce-Python-REST-API/{__version__}")
+        self.s = Session()
 
     def __is_ssl(self):
         """ Check if url use HTTPS """
@@ -89,7 +91,7 @@ class API(object):
             data = jsonencode(data, ensure_ascii=False).encode('utf-8')
             headers["content-type"] = "application/json;charset=utf-8"
 
-        return request(
+        return self.s.request(
             method=method,
             url=url,
             verify=self.verify_ssl,
