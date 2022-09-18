@@ -17,7 +17,7 @@ Installation
 
 .. code-block:: bash
 
-    pip install woocommerce
+    pip install -U git+https://github.com/<user>/<repo>@tag
 
 Getting started
 ---------------
