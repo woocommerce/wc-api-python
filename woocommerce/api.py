@@ -13,7 +13,7 @@ from json import dumps as jsonencode
 from time import time
 from urllib.parse import urlencode
 
-from oauth import OAuth
+from .oauth import OAuth
 from requests import session
 from requests.adapters import HTTPAdapter, Retry
 from requests.auth import HTTPBasicAuth
