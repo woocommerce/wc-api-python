@@ -1,147 +1,109 @@
 """ API Tests """
 import unittest
-import woocommerce
-from woocommerce import oauth
-from httmock import all_requests, HTTMock
+import woocommerceaio
+from woocommerceaio import oauth
+from pytest_httpx import HTTPXMock
+import pytest
 
+@pytest.fixture()
+def api():
+    yield woocommerceaio.API(
+        url="https://woo.test",
+        consumer_key="ck_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        consumer_secret="cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    )
 
-class WooCommerceTestCase(unittest.TestCase):
+@pytest.fixture()
+def api_http():
+    yield woocommerceaio.API(
+        url="http://woo.test",
+        consumer_key="ck_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        consumer_secret="cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    )
+
+class TestWooCommerceAPI:
     """Test case for the client methods."""
 
-    def setUp(self):
-        self.consumer_key = "ck_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-        self.consumer_secret = "cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-        self.api = woocommerce.API(
-            url="http://woo.test",
-            consumer_key=self.consumer_key,
-            consumer_secret=self.consumer_secret
-        )
-
-    def test_version(self):
+    def test_version(self, api: woocommerceaio.API):
         """ Test default version """
-        api = woocommerce.API(
-            url="https://woo.test",
-            consumer_key=self.consumer_key,
-            consumer_secret=self.consumer_secret
-        )
+        api.version == "wc/v3"
 
-        self.assertEqual(api.version, "wc/v3")
-
-    def test_non_ssl(self):
+    def test_non_ssl(self, api_http: woocommerceaio.API):
         """ Test non-ssl """
-        api = woocommerce.API(
-            url="http://woo.test",
-            consumer_key=self.consumer_key,
-            consumer_secret=self.consumer_secret
-        )
-        self.assertFalse(api.is_ssl)
+        assert api_http.is_ssl is False
 
-    def test_with_ssl(self):
+    def test_with_ssl(self, api: woocommerceaio.API):
         """ Test ssl """
-        api = woocommerce.API(
-            url="https://woo.test",
-            consumer_key=self.consumer_key,
-            consumer_secret=self.consumer_secret
-        )
-        self.assertTrue(api.is_ssl, True)
+        assert api.is_ssl is True
 
-    def test_with_timeout(self):
+    @pytest.mark.asyncio
+    async def test_with_timeout(self, api: woocommerceaio.API, httpx_mock: HTTPXMock):
         """ Test timeout """
-        api = woocommerce.API(
+        api = woocommerceaio.API(
             url="https://woo.test",
-            consumer_key=self.consumer_key,
-            consumer_secret=self.consumer_secret,
+            consumer_key=api.consumer_key,
+            consumer_secret=api.consumer_secret,
             timeout=10,
         )
-        self.assertEqual(api.timeout, 10)
+        assert api.timeout == 10
 
-        @all_requests
-        def woo_test_mock(*args, **kwargs):
-            """ URL Mock """
-            return {'status_code': 200,
-                    'content': 'OK'}
+        httpx_mock.add_response(status_code=200, content="OK")
 
-        with HTTMock(woo_test_mock):
-            # call requests
-            status = api.get("products").status_code
-        self.assertEqual(status, 200)
+        response = await api.get("products")
+        assert response.status_code == 200
 
-    def test_get(self):
+    @pytest.mark.asyncio
+    async def test_get(self, api: woocommerceaio.API, httpx_mock: HTTPXMock):
         """ Test GET requests """
-        @all_requests
-        def woo_test_mock(*args, **kwargs):
-            """ URL Mock """
-            return {'status_code': 200,
-                    'content': 'OK'}
 
-        with HTTMock(woo_test_mock):
-            # call requests
-            status = self.api.get("products").status_code
-        self.assertEqual(status, 200)
+        httpx_mock.add_response(status_code=200, content="OK")
 
-    def test_get_with_parameters(self):
+        response = await api.get("products")
+        assert response.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_get_with_parameters(self, api: woocommerceaio.API, httpx_mock: HTTPXMock):
         """ Test GET requests w/ url params """
-        @all_requests
-        def woo_test_mock(*args, **kwargs):
-            return {'status_code': 200,
-                    'content': 'OK'}
 
-        with HTTMock(woo_test_mock):
-            # call requests
-            status = self.api.get("products", params={"per_page": 10, "page": 1, "offset": 0}).status_code
-            self.assertEqual(status, 200)
+        httpx_mock.add_response(status_code=200, content="OK")
 
-    def test_get_with_requests_kwargs(self):
+        response = await api.get("products", params={"per_page": 10, "page": 1, "offset": 0})
+        assert response.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_get_with_requests_kwargs(self, api: woocommerceaio.API, httpx_mock: HTTPXMock):
         """ Test GET requests w/ optional requests-module kwargs """
 
-        @all_requests
-        def woo_test_mock(*args, **kwargs):
-            return {'status_code': 200,
-                    'content': 'OK'}
+        httpx_mock.add_response(status_code=200, content="OK")
 
-        with HTTMock(woo_test_mock):
-            # call requests
-            status = self.api.get("products", allow_redirects=True).status_code
-            self.assertEqual(status, 200)
+        response = await api.get("products", allow_redirects=True)
+        assert response.status_code == 200
 
-    def test_post(self):
+    @pytest.mark.asyncio
+    async def test_post(self, api: woocommerceaio.API, httpx_mock: HTTPXMock):
         """ Test POST requests """
-        @all_requests
-        def woo_test_mock(*args, **kwargs):
-            """ URL Mock """
-            return {'status_code': 201,
-                    'content': 'OK'}
 
-        with HTTMock(woo_test_mock):
-            # call requests
-            status = self.api.post("products", {}).status_code
-        self.assertEqual(status, 201)
+        httpx_mock.add_response(status_code=201, content="OK")
 
-    def test_put(self):
+        response = await api.post("products", {})
+        assert response.status_code == 201
+
+    @pytest.mark.asyncio
+    async def test_put(self, api: woocommerceaio.API, httpx_mock: HTTPXMock):
         """ Test PUT requests """
-        @all_requests
-        def woo_test_mock(*args, **kwargs):
-            """ URL Mock """
-            return {'status_code': 200,
-                    'content': 'OK'}
+        httpx_mock.add_response(status_code=200, content="OK")
 
-        with HTTMock(woo_test_mock):
-            # call requests
-            status = self.api.put("products", {}).status_code
-        self.assertEqual(status, 200)
+        response = await api.put("products", {})
+        assert response.status_code == 200
 
-    def test_delete(self):
+    @pytest.mark.asyncio
+    async def test_delete(self, api: woocommerceaio.API, httpx_mock: HTTPXMock):
         """ Test DELETE requests """
-        @all_requests
-        def woo_test_mock(*args, **kwargs):
-            """ URL Mock """
-            return {'status_code': 200,
-                    'content': 'OK'}
 
-        with HTTMock(woo_test_mock):
-            # call requests
-            status = self.api.delete("products").status_code
-        self.assertEqual(status, 200)
+        httpx_mock.add_response(status_code=200, content="OK")
+
+        response = await api.delete("products")
+        assert response.status_code == 200
 
     def test_oauth_sorted_params(self):
         """ Test order of parameters for OAuth signature """
@@ -151,7 +113,7 @@ class WooCommerceTestCase(unittest.TestCase):
                 params[key] = ''
 
             ordered = list(oauth.OAuth.sorted_params(params).keys())
-            self.assertEqual(ordered, expected)
+            assert ordered == expected
 
         check_sorted(['a', 'b'], ['a', 'b'])
         check_sorted(['b', 'a'], ['a', 'b'])

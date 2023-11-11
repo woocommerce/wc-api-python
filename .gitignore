@@ -8,3 +8,6 @@ sample.py
 .vscode/
 env/
 .pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.e/

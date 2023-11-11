@@ -1,6 +1,7 @@
 The MIT License (MIT)
 
-Copyright (c) 2021, Automattic (https://automattic.com/)
+Copyright (c) 2023, Luis Medel <luis@luismedel.com> (https://luismedel.com/)
+Copyright original package (c) 2021, Automattic (https://automattic.com/)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
