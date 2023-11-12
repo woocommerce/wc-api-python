@@ -1,4 +1,4 @@
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 from httpx import AsyncClient, Response, BasicAuth
 from json import dumps as jsonencode

@@ -2,7 +2,7 @@
 name = "woocommerceaio"
 description = "An async Python wrapper for the WooCommerce REST API"
 readme = "README.md"
-version = "1.0.0"
+version = "1.0.1"
 authors = [
     { name = "Luis Medel", email = "luis@luismedel.com" },
     { name = "Claudio Sanches @ Automattic", email = "claudio+pypi@automattic.com" }
@@ -32,6 +32,9 @@ requires-python = ">=3.7"
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+woocommerceaio = ["py.typed"]
 
 [tool.pytest.ini_options]
 pythonpath = [
