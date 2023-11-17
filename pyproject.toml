@@ -2,7 +2,7 @@
 name = "woocommerceaio"
 description = "An async Python wrapper for the WooCommerce REST API"
 readme = "README.md"
-version = "1.0.1"
+version = "1.1.0"
 authors = [
     { name = "Luis Medel", email = "luis@luismedel.com" },
     { name = "Claudio Sanches @ Automattic", email = "claudio+pypi@automattic.com" }

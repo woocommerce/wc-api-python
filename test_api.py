@@ -1,5 +1,4 @@
-""" API Tests """
-import unittest
+
 import woocommerceaio
 from woocommerceaio import oauth
 from pytest_httpx import HTTPXMock
@@ -51,6 +50,42 @@ class TestWooCommerceAPI:
 
         response = await api.get("products")
         assert response.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_retry_ok(self, api: woocommerceaio.API, httpx_mock: HTTPXMock):
+        """ Test timeout """
+        api = woocommerceaio.API(
+            url="https://woo.test",
+            consumer_key=api.consumer_key,
+            consumer_secret=api.consumer_secret,
+            max_retries=3,
+        )
+
+        httpx_mock.add_response(status_code=500, content="KO")
+        httpx_mock.add_response(status_code=500, content="KO")
+        httpx_mock.add_response(status_code=200, content="OK")
+
+        response = await api.get("products")
+        assert response.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_retry_fail(self, api: woocommerceaio.API, httpx_mock: HTTPXMock):
+        """ Test timeout """
+        api = woocommerceaio.API(
+            url="https://woo.test",
+            consumer_key=api.consumer_key,
+            consumer_secret=api.consumer_secret,
+            max_retries=2,
+        )
+
+        httpx_mock.add_response(status_code=500, content="KO")
+        httpx_mock.add_response(status_code=500, content="KO")
+
+        try:
+            response = await api.get("products")
+            raise AssertionError("Should have raised an exception")
+        except Exception as ex:
+            assert "Max retries exceeded" in str(ex), str(ex)
 
     @pytest.mark.asyncio
     async def test_get(self, api: woocommerceaio.API, httpx_mock: HTTPXMock):

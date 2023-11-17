@@ -1,6 +1,8 @@
 __version__ = "1.0.1"
 
-from httpx import AsyncClient, Response, BasicAuth
+import asyncio
+import logging
+from httpx import AsyncClient, Response, BasicAuth, HTTPError
 from json import dumps as jsonencode
 from time import time
 from woocommerceaio.oauth import OAuth
@@ -12,14 +14,23 @@ import typing as t
 class API(object):
     """API Class"""
 
-    def __init__(self, url: str, consumer_key: str, consumer_secret: str, **kwargs):
+    def __init__(
+        self,
+        url: str,
+        consumer_key: str,
+        consumer_secret: str,
+        max_retries: int = 3,
+        timeout: int = 5,
+        **kwargs,
+    ):
         self.url = url
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
         self.wp_api = kwargs.get("wp_api", True)
         self.version = kwargs.get("version", "wc/v3")
         self.is_ssl = self.__is_ssl()
-        self.timeout = kwargs.get("timeout", 5)
+        self.max_retries = max_retries
+        self.timeout = timeout
         self.verify_ssl = kwargs.get("verify_ssl", True)
         self.query_string_auth = kwargs.get("query_string_auth", False)
         self.user_agent = kwargs.get("user_agent", f"woocommerceaio/{__version__}")
@@ -92,18 +103,34 @@ class API(object):
             follow_redirects = kwargs.pop("allow_redirects")
 
         async with AsyncClient(
-            verify=self.verify_ssl, follow_redirects=follow_redirects
+            verify=self.verify_ssl, follow_redirects=follow_redirects, timeout=self.timeout,
+            headers=headers, auth=auth
         ) as client:
-            return await client.request(
-                method=method,
-                url=url,
-                auth=auth,
-                params=params,
-                content=data,
-                timeout=self.timeout,
-                headers=headers,
-                **kwargs,
-            )
+            backoff: float = 0.5
+            _try: int = 1
+
+            while True:
+                try:
+                    response: Response = await client.request(
+                        method=method,
+                        url=url,
+                        params=params,
+                        content=data,
+                        **kwargs,
+                    )
+                    if response.status_code < 500:
+                        return response
+                except HTTPError as ex:
+                    logging.error(f"Error retrieving {self.__get_url(endpoint)}: {str((ex))}")
+
+                if _try == self.max_retries:
+                    break
+                logging.error(f"Awaiting {backoff} seconds before next attempt...")
+                await asyncio.sleep(backoff)
+                _try += 1
+                backoff *= 2
+
+            raise Exception(f"Max retries exceeded to {self.__get_url(endpoint)}")
 
     async def get(self, endpoint: str, **kwargs: t.Any) -> Response:
         """Get requests"""
