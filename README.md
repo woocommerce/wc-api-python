@@ -1,6 +1,6 @@
 # woocommerceaio
 
-An async Python wrapper for the WooCommerce REST API. Easily interact with the WooCommerce REST API using this library.
+An async Python wrapper for the WooCommerce REST API based on [httpx](https://www.python-httpx.org/). 
 
 This library is a fork of the original work by Claudio Sanches on [wc-api-python](https://github.com/woocommerce/wc-api-python).
 
