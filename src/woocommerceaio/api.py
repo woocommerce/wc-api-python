@@ -1,4 +1,4 @@
-__version__ = "1.0.1"
+__version__ = "1.1.3"
 
 import asyncio
 import logging
@@ -109,7 +109,9 @@ class API(object):
             headers=headers,
             auth=auth,
         ) as client:
-            backoff: float = 0.5
+            backoff: float = (
+                float(kwargs.pop("retry_backoff")) if "retry_backoff" in kwargs else 0.5
+            )
             _try: int = 1
 
             while True:
