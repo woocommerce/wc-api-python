@@ -2,7 +2,7 @@ __version__ = "1.0.1"
 
 import asyncio
 import logging
-from httpx import AsyncClient, Response, BasicAuth, HTTPError
+from httpx import AsyncClient, Response, BasicAuth, HTTPError, TimeoutException
 from json import dumps as jsonencode
 from time import time
 from woocommerceaio.oauth import OAuth
@@ -103,8 +103,11 @@ class API(object):
             follow_redirects = kwargs.pop("allow_redirects")
 
         async with AsyncClient(
-            verify=self.verify_ssl, follow_redirects=follow_redirects, timeout=self.timeout,
-            headers=headers, auth=auth
+            verify=self.verify_ssl,
+            follow_redirects=follow_redirects,
+            timeout=self.timeout,
+            headers=headers,
+            auth=auth,
         ) as client:
             backoff: float = 0.5
             _try: int = 1
@@ -121,7 +124,9 @@ class API(object):
                     if response.status_code < 500:
                         return response
                 except HTTPError as ex:
-                    logging.error(f"Error retrieving {self.__get_url(endpoint)}: {str((ex))}")
+                    logging.error(
+                        f"Error retrieving {self.__get_url(endpoint)}: {str((ex))}"
+                    )
 
                 if _try == self.max_retries:
                     break
@@ -130,7 +135,9 @@ class API(object):
                 _try += 1
                 backoff *= 2
 
-            raise Exception(f"Max retries exceeded to {self.__get_url(endpoint)}")
+            raise TimeoutException(
+                f"Max retries exceeded to {self.__get_url(endpoint)}"
+            )
 
     async def get(self, endpoint: str, **kwargs: t.Any) -> Response:
         """Get requests"""
