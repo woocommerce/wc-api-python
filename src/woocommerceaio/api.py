@@ -121,7 +121,7 @@ class API(object):
                         content=data,
                         **kwargs,
                     )
-                    if response.status_code < 500:
+                    if response.status_code < 500 and response.status_code != 429:
                         return response
                 except HTTPError as ex:
                     logging.error(

@@ -61,7 +61,7 @@ class TestWooCommerceAPI:
             max_retries=3,
         )
 
-        httpx_mock.add_response(status_code=500, content="KO")
+        httpx_mock.add_response(status_code=429, content="KO")
         httpx_mock.add_response(status_code=500, content="KO")
         httpx_mock.add_response(status_code=200, content="OK")
 
