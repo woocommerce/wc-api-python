@@ -70,7 +70,8 @@ class API(object):
         auth = None
         headers = {
             "user-agent": f"{self.user_agent}",
-            "accept": "application/json"
+            "accept": "application/json",
+            "Connection":"close"
         }
 
         if self.is_ssl is True and self.query_string_auth is False:
