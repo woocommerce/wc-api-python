@@ -10,10 +10,10 @@ __author__ = "Claudio Sanches @ Automattic"
 __license__ = "MIT"
 
 from time import time
-from random import randint
+from os import urandom
 from hmac import new as HMAC
-from hashlib import sha1, sha256
-from base64 import b64encode
+from hashlib import sha256
+from base64 import b64encode, urlsafe_b64encode
 from collections import OrderedDict
 from urllib.parse import urlencode, quote, unquote, parse_qsl, urlparse
 
@@ -122,10 +122,5 @@ class OAuth(object):
 
     @staticmethod
     def generate_nonce():
-        """ Generate nonce number """
-        nonce = ''.join([str(randint(0, 9)) for i in range(8)])
-        return HMAC(
-            nonce.encode(),
-            "secret".encode(),
-            sha1
-        ).hexdigest()
+        """Generate a crypto safe random 32-byte string and encode it in Base64"""
+        return urlsafe_b64encode(urandom(32)).decode('utf-8').rstrip('=')
