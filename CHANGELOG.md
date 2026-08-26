@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.0] - 2021-03-19
+### Added
+- Optional "headers" keyword argument so that extra headers can be sent with every request
+
 ## [3.0.0] - 2021-03-13
 ### Removed
 - Removed support to legacy Python versions, now supports Python 3.6+.
