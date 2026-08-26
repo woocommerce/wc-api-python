@@ -18,7 +18,31 @@ from urllib.parse import urlencode
 
 
 class API(object):
-    """ API Class """
+    '''
+    This script defines the API class, which provides a wrapper around the requests library to interact with the WooCommerce API.
+
+    The API class takes in three required arguments: url, consumer_key, and consumer_secret. Additionally, the class allows for the following keyword arguments:
+
+    wp_api: a boolean indicating if the API is using the WordPress API (default is True).
+    version: the API version to use (default is "wc/v3").
+    timeout: the timeout for API requests in seconds (default is 5).
+    verify_ssl: a boolean indicating if SSL certificates should be verified for API requests (default is True).
+    query_string_auth: a boolean indicating if authentication should be passed as query parameters (default is False).
+    user_agent: the user agent string to use for API requests (default is "WooCommerce-Python-REST-API/3.0.0").
+    The class has six methods:
+
+    get: sends a GET request to the API.
+    post: sends a POST request to the API, with a required data argument.
+    put: sends a PUT request to the API, with a required data argument.
+    delete: sends a DELETE request to the API.
+    options: sends an OPTIONS request to the API.
+    __request: a private method that handles sending the actual API request, taking in a method argument for the HTTP method to use, and an optional params argument for any query parameters to include.
+    The __get_url method returns the URL for the API, based on the url, wp_api, and version arguments.
+
+    The __get_oauth_url method generates an OAuth 1.0a URL for the API request, using the OAuth class from the woocommerce.oauth module.
+
+    The __is_ssl method is a private helper method that checks if the url uses HTTPS.
+    '''   
 
     def __init__(self, url, consumer_key, consumer_secret, **kwargs):
         self.url = url
