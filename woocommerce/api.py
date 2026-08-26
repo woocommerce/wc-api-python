@@ -9,7 +9,7 @@ __version__ = "3.0.0"
 __author__ = "Claudio Sanches @ Automattic"
 __license__ = "MIT"
 
-from requests import request
+from requests import request, Response
 from json import dumps as jsonencode
 from time import time
 from woocommerce.oauth import OAuth
@@ -62,7 +62,7 @@ class API(object):
 
         return oauth.get_oauth_url()
 
-    def __request(self, method, endpoint, data, params=None, **kwargs):
+    def __request(self, method, endpoint, data, params=None, **kwargs) -> Response:
         """ Do requests """
         if params is None:
             params = {}
